@@ -3606,7 +3606,7 @@ var NSGrid = (function()
 					//self.__updateStickyColumns(self.__tblCenterBody);
 				}
 				var setting = {scrollElement: this.__divCenterTableBodyContainer,contentElement: this.__tblCenterBodyBody,itemTag: "tr",totalLength: length,getItemComponent:this.__getRowComponentForVirtual.call(this),
-								getEmptyItemComponent:this.__getEmptyRowComponentForVirtual.call(this),pageChanged: pageChangedHandler};
+								getEmptyItemComponent:this.__getEmptyRowComponentForVirtual.call(this),pageChanged: pageChangedHandler,enableVariableRowHeight:this.__enableVariableRowHeight};
 				var virtualScrollSetting = this.__virtualScrollSetting;
 				var arrCopyFields = ["pageSize","pagesRendered","enableScrollDelay","scrollInterval","resizeInterval","enableLoader","getLoaderComponent"];
 				var field = null;

@@ -20,7 +20,10 @@ var NSVirtualScroll = (function()
 	
 	NSVirtualScroll.prototype.dataSource = function(paramItems,scrollAnchor)
 	{
-		scrollAnchor = scrollAnchor || this.__getScrollAnchor();
+		if(this.__config.enableVariableRowHeight)
+		{
+			scrollAnchor = scrollAnchor || this.__getScrollAnchor();
+		}
 		/*this.__debugLog("dataSource ENTER",{
 			paramType:typeof paramItems,
 			paramLength:paramItems && paramItems.length !== undefined ? paramItems.length : paramItems,
@@ -51,7 +54,10 @@ var NSVirtualScroll = (function()
             this.__internal.objCache = {};
             this.__internal.currentItemPage = null;
             this.__internal.lastPageNum = -1;
-            this.__resetItemDimensions();
+            if(this.__config.enableVariableRowHeight)
+            {
+            	this.__resetItemDimensions();
+            }
 			if(reInit)
 			{
                 var item = this.__getItemAt(0);
@@ -65,29 +71,42 @@ var NSVirtualScroll = (function()
 				scrollElement[this.__objSelectedProp.scroll] = 0;
 				this.__internal.lastPageNum = 0;
 		    }
-			if(scrollAnchor && this.__getTotalLength())
+			if(this.__config.enableVariableRowHeight)
 			{
-				scrollAnchor.index = Math.min(scrollAnchor.index,this.__getTotalLength() - 1);
-				this.__restoreScrollAnchor(scrollAnchor);
+				if(scrollAnchor && this.__getTotalLength())
+				{
+					scrollAnchor.index = Math.min(scrollAnchor.index,this.__getTotalLength() - 1);
+					this.__restoreScrollAnchor(scrollAnchor);
+				}
+				this.__addItems();
+				if(scrollAnchor && this.__getTotalLength())
+				{
+					this.__restoreScrollAnchor(scrollAnchor);
+				}
 			}
-			this.__addItems();
-			if(scrollAnchor && this.__getTotalLength())
+			else
 			{
-				this.__restoreScrollAnchor(scrollAnchor);
+				this.__addItems();
+				scrollElement[this.__objSelectedProp.scroll] = scrollPos;
 			}
 		}
 	};
 	
 	NSVirtualScroll.prototype.refresh = function(isReset)
 	{
-		var scrollAnchor = this.__getScrollAnchor();
+		var scrollAnchor = this.__config.enableVariableRowHeight ? this.__getScrollAnchor() : null;
+		var scrollElement = this.__config.scrollElement;
+		var scrollPos = scrollElement[this.__objSelectedProp.scroll];
 		/*this.__debugLog("refresh ENTER",{
 			isReset:isReset,
 			state:this.__getDebugScrollState()
 		});*/
 		var currItemSize = this.__internal.itemDimension;
 		this.__setSize();
-		this.__resetItemDimensions();
+		if(this.__config.enableVariableRowHeight)
+		{
+			this.__resetItemDimensions();
+		}
 		var newItemSize = this.__internal.itemDimension;
 		/*this.__debugLog("refresh SIZE",{
 			currItemSize:currItemSize,
@@ -116,15 +135,23 @@ var NSVirtualScroll = (function()
 			this.__internal.objCache = {};
 			this.__internal.currentItemPage = null;
 			this.__internal.lastPageNum = -1;
-			if(scrollAnchor && this.__getTotalLength())
+			if(this.__config.enableVariableRowHeight)
 			{
-				scrollAnchor.index = Math.min(scrollAnchor.index,this.__getTotalLength() - 1);
-				this.__restoreScrollAnchor(scrollAnchor);
+				if(scrollAnchor && this.__getTotalLength())
+				{
+					scrollAnchor.index = Math.min(scrollAnchor.index,this.__getTotalLength() - 1);
+					this.__restoreScrollAnchor(scrollAnchor);
+				}
+				this.__addItems();
+				if(scrollAnchor && this.__getTotalLength())
+				{
+					this.__restoreScrollAnchor(scrollAnchor);
+				}
 			}
-			this.__addItems();
-			if(scrollAnchor && this.__getTotalLength())
+			else
 			{
-				this.__restoreScrollAnchor(scrollAnchor);
+				this.__addItems();
+				scrollElement[this.__objSelectedProp.scroll] = scrollPos;
 			}
 		}
 	};
@@ -133,7 +160,7 @@ var NSVirtualScroll = (function()
 	{
 		var scrollPos = this.__internal.scrollPos;
 		var itemSize = this.__internal.itemDimension;
-		var totalSize = this.__getTotalItemSize();
+		var totalSize = this.__config.enableVariableRowHeight ? this.__getTotalItemSize() : this.__getTotalLength() * itemSize;
 		var progress = ((scrollPos / totalSize) * 100) || 0;
 		return progress;
 	};
@@ -161,7 +188,7 @@ var NSVirtualScroll = (function()
 			if(!this.util.isUndefinedOrNull(index) && index > -1 && index < totalLength)
 			{
 				offset = this.util.isUndefinedOrNull(offset) ? 0 : parseInt(offset);
-				scrollPos = this.__getItemOffset(index) + offset;
+				scrollPos = this.__config.enableVariableRowHeight ? this.__getItemOffset(index) + offset : (this.__internal.itemDimension * index) + offset;
 			}
 			else if(!this.util.isUndefinedOrNull(scrollPosition))
 			{
@@ -257,6 +284,7 @@ var NSVirtualScroll = (function()
 					scrollingProgress: this.__setting["scrollingProgress"], //scrollingProgress callback while scrolling like  scrollingProgress(progress)
 					pageWillChange: this.__setting["pageWillChange"], //pageWillChange callback before page change like  pageWillChange(oldPage,newPage)
 					pageChanged: this.__setting["pageChanged"], //pageChanged callback before page change like  pageChanged(page)
+					enableVariableRowHeight: Boolean.parse(this.__setting["enableVariableRowHeight"])
 				};
 			if(!this.__config.scrollElement)
 			{
@@ -317,13 +345,16 @@ var NSVirtualScroll = (function()
 			this.__internal.isDomUpdating = false;
 			this.__internal.objItemComp = {};
 			this.__internal.objCache = {};
-			this.__internal.itemDimensions = [];
-			this.__internal.itemOffsets = [];
-			this.__internal.itemOffsetsDirty = true;
-			this.__internal.itemDimensionTotal = 0;
-			this.__internal.itemDimensionCount = 0;
-			this.__internal.estimatedItemDimension = 0;
-			this.__internal.contentCrossDimension = null;
+			if(this.__config.enableVariableRowHeight)
+			{
+				this.__internal.itemDimensions = [];
+				this.__internal.itemOffsets = [];
+				this.__internal.itemOffsetsDirty = true;
+				this.__internal.itemDimensionTotal = 0;
+				this.__internal.itemDimensionCount = 0;
+				this.__internal.estimatedItemDimension = 0;
+				this.__internal.contentCrossDimension = null;
+			}
 			this.__internal.cssExtraItem = "nsVirtualExtraItem" + this.util.toCamelCase(this.__objSelectedProp.direction,true);
 			this.__internal.isMobile = this.util.isMobile().any;
 			if(this.__config.enableScrollDelay && this.util.isUndefinedOrNull(this.__config.scrollInterval))
@@ -356,11 +387,14 @@ var NSVirtualScroll = (function()
 		this.__internal.pageDimension = this.__internal.itemDimension * this.__internal.pageSize;
 		this.__internal.itemsRendered = this.__internal.pageSize * this.__internal.pagesRendered;
 		this.__internal.renderedSize = this.__internal.pagesRendered * this.__internal.pageDimension;
-		if(!this.__internal.itemDimensionCount)
+		if(this.__config.enableVariableRowHeight)
 		{
-			this.__internal.estimatedItemDimension = this.__internal.itemDimension;
+			if(!this.__internal.itemDimensionCount)
+			{
+				this.__internal.estimatedItemDimension = this.__internal.itemDimension;
+			}
+			this.__internal.itemOffsetsDirty = true;
 		}
-		this.__internal.itemOffsetsDirty = true;
 		/*this.__debugLog("__setSize",{
 			itemDimension:this.__internal.itemDimension,
 			pageSize:this.__internal.pageSize,
@@ -381,8 +415,16 @@ var NSVirtualScroll = (function()
 		if((this.__config.items && this.__config.items.length) || this.__config.totalLength)
 		{
 			var scrollPos = scrollElement[this.__objSelectedProp.scroll];
+			var scrollAnchor = this.__config.enableVariableRowHeight ? this.__getScrollAnchor() : null;
 			this.__addItems();
-			scrollElement[this.__objSelectedProp.scroll] = scrollPos;
+			if(this.__config.enableVariableRowHeight)
+			{
+				this.__restoreScrollAnchor(scrollAnchor);
+			}
+			else
+			{
+				scrollElement[this.__objSelectedProp.scroll] = scrollPos;
+			}
 		}
 	};
 	
@@ -419,7 +461,7 @@ var NSVirtualScroll = (function()
 			return;
 		}
 		event = this.util.getEvent(event);
-		var itemDimensionReset = this.__checkForCrossDimensionChange();
+		var itemDimensionReset = this.__config.enableVariableRowHeight ? this.__checkForCrossDimensionChange() : false;
 		var pageNumber = this.__getCurrentPageNum();
 		var lastPageNum = this.__internal.lastPageNum;
 		/*this.__debugLog("__scrollHandler PAGE",{
@@ -517,7 +559,10 @@ var NSVirtualScroll = (function()
 	
 	NSVirtualScroll.prototype.__addItems = function()
 	{
-		this.__checkForCrossDimensionChange();
+		if(this.__config.enableVariableRowHeight)
+		{
+			this.__checkForCrossDimensionChange();
+		}
 		var arrItem = this.__internal.arrItem || [];
 		var itemPage = this.__getPageData(arrItem,this.__getCurrentPageNum());
 		/*this.__debugLog("__addItems BEFORE",{
@@ -548,7 +593,10 @@ var NSVirtualScroll = (function()
             }
             this.__fireCallback("pageWillChange",[this.__internal.currentItemPage,itemPage]);
             this.__setItemsInDom(arrSource);
-            this.__updateRenderedItemDimensions(itemPage);
+            if(this.__config.enableVariableRowHeight)
+            {
+            	this.__updateRenderedItemDimensions(itemPage);
+            }
             /*this.__debugLog("__addItems AFTER DOM",{
             	itemPage:{
             		startOffset:itemPage.startOffset,
@@ -737,8 +785,8 @@ var NSVirtualScroll = (function()
 			var startIndex = Math.max((internal.itemsRendered - internal.pageSize) * pageNum, 0);
             startIndex = Math.min(startIndex,totalLength);
 	        var endIndex = Math.min(startIndex + internal.itemsRendered,totalLength);
-	        var startOffset = Math.max(this.__getItemOffset(startIndex), 0);
-	        var endOffset = Math.max(this.__getTotalItemSize() - this.__getItemOffset(endIndex), 0);
+	        var startOffset = this.__config.enableVariableRowHeight ? Math.max(this.__getItemOffset(startIndex), 0) : Math.max(startIndex * internal.itemDimension, 0);
+	        var endOffset = this.__config.enableVariableRowHeight ? Math.max(this.__getTotalItemSize() - this.__getItemOffset(endIndex), 0) : Math.max((totalLength - endIndex) * internal.itemDimension, 0);
 	        var itemsBefore = startIndex;
 	        if(startOffset < 1) 
 	        {
@@ -1080,9 +1128,17 @@ var NSVirtualScroll = (function()
 			});*/
 			return 0;
 		}
-		var itemIndex = this.__getItemIndexFromOffset(this.__internal.scrollPos);
-		var pageStep = this.__internal.itemsRendered - this.__internal.pageSize;
-		var calculatedPageNum = pageStep > 0 ? Math.floor(itemIndex / pageStep) || 0 : 0;
+		var calculatedPageNum = 0;
+		if(this.__config.enableVariableRowHeight)
+		{
+			var itemIndex = this.__getItemIndexFromOffset(this.__internal.scrollPos);
+			var pageStep = this.__internal.itemsRendered - this.__internal.pageSize;
+			calculatedPageNum = pageStep > 0 ? Math.floor(itemIndex / pageStep) || 0 : 0;
+		}
+		else
+		{
+			calculatedPageNum = Math.floor(this.__internal.scrollPos / pageStepSize) || 0;
+		}
 		var maxPageNum = this.__getMaxPageNum();
 		var pageNum = Math.min(Math.max(calculatedPageNum,0),maxPageNum);
 		/*this.__debugLog("__getCurrentPageNum",{
