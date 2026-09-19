@@ -20,6 +20,11 @@ var NSVirtualScroll = (function()
 	
 	NSVirtualScroll.prototype.dataSource = function(paramItems)
 	{
+		/*this.__debugLog("dataSource ENTER",{
+			paramType:typeof paramItems,
+			paramLength:paramItems && paramItems.length !== undefined ? paramItems.length : paramItems,
+			state:this.__config && this.__config.scrollElement ? this.__getDebugScrollState() : null
+		});*/
 		if(!this.util.isUndefinedOrNull(paramItems))
 		{
 			var reInit = false;
@@ -62,9 +67,18 @@ var NSVirtualScroll = (function()
 	
 	NSVirtualScroll.prototype.refresh = function(isReset)
 	{
+		/*this.__debugLog("refresh ENTER",{
+			isReset:isReset,
+			state:this.__getDebugScrollState()
+		});*/
 		var currItemSize = this.__internal.itemDimension;
 		this.__setSize();
 		var newItemSize = this.__internal.itemDimension;
+		/*this.__debugLog("refresh SIZE",{
+			currItemSize:currItemSize,
+			newItemSize:newItemSize,
+			isReset:isReset
+		});*/
 		if((currItemSize != newItemSize) || isReset)
 		{
 			var criteria = null;
@@ -268,6 +282,7 @@ var NSVirtualScroll = (function()
 			this.__internal.resizeIntervalID = -1;
 			this.__internal.scrollPos = -1;
 			this.__internal.lastPageNum = -1;
+			this.__internal.isDomUpdating = false;
 			this.__internal.objItemComp = {};
 			this.__internal.objCache = {};
 			this.__internal.cssExtraItem = "nsVirtualExtraItem" + this.util.toCamelCase(this.__objSelectedProp.direction,true);
@@ -302,6 +317,14 @@ var NSVirtualScroll = (function()
 		this.__internal.pageDimension = this.__internal.itemDimension * this.__internal.pageSize;
 		this.__internal.itemsRendered = this.__internal.pageSize * this.__internal.pagesRendered;
 		this.__internal.renderedSize = this.__internal.pagesRendered * this.__internal.pageDimension;
+		/*this.__debugLog("__setSize",{
+			itemDimension:this.__internal.itemDimension,
+			pageSize:this.__internal.pageSize,
+			pagesRendered:this.__internal.pagesRendered,
+			pageDimension:this.__internal.pageDimension,
+			itemsRendered:this.__internal.itemsRendered,
+			renderedSize:this.__internal.renderedSize
+		});*/
 	};
 	
 	NSVirtualScroll.prototype.__create = function()
@@ -345,14 +368,29 @@ var NSVirtualScroll = (function()
 	NSVirtualScroll.prototype.__scrollHandler = function(event)
 	{
 		this.__internal.scrollIntervalID = -1;
+		//this.__debugLog("__scrollHandler ENTER",this.__getDebugScrollState());
+		if(this.__internal.isDomUpdating)
+		{
+			//this.__debugLog("__scrollHandler IGNORED DOM UPDATE",this.__getDebugScrollState());
+			return;
+		}
 		event = this.util.getEvent(event);
 		var pageNumber = this.__getCurrentPageNum();
 		var lastPageNum = this.__internal.lastPageNum;
+		/*this.__debugLog("__scrollHandler PAGE",{
+			lastPageNum:lastPageNum,
+			pageNumber:pageNumber,
+			state:this.__getDebugScrollState()
+		});*/
 		this.__internal.lastPageNum = pageNumber;
 		/*console.log("lastPageNum::" + lastPageNum + " pageNumber::" + pageNumber);*/
 		if(lastPageNum != pageNumber)
 		{
 			//console.log("In Scroll");
+			/*this.__debugLog("__scrollHandler PAGE CHANGE",{
+				from:lastPageNum,
+				to:pageNumber
+			});*/
 			this.__addItems();
 			this.__fireCallback("scrollingProgress",this.getScrollProgress());
 		}
@@ -375,6 +413,7 @@ var NSVirtualScroll = (function()
 	
 	NSVirtualScroll.prototype.__resizeHandler = function(event)
 	{
+		//this.__debugLog("__resizeHandler",this.__getDebugScrollState());
 		event = this.util.getEvent(event);
 		clearTimeout(this.__internal.resizeIntervalID);
 		var self = this;
@@ -435,6 +474,15 @@ var NSVirtualScroll = (function()
 	{
 		var arrItem = this.__internal.arrItem || [];
 		var itemPage = this.__getPageData(arrItem,this.__getCurrentPageNum());
+		/*this.__debugLog("__addItems BEFORE",{
+			itemPage:{
+				startOffset:itemPage.startOffset,
+				endOffset:itemPage.endOffset,
+				itemsBefore:itemPage.itemsBefore,
+				itemCount:itemPage.arrItem ? itemPage.arrItem.length : 0
+			},
+			state:this.__getDebugScrollState()
+		});*/
 		var hasPageContentChanged = this.__hasCacheChanged("data",itemPage.arrItem);
         var hasStartOffsetChanged = this.__hasCacheChanged("top",itemPage.startOffset);
         var hasEndOffsetChanged = this.__hasCacheChanged("bottom",itemPage.endOffset);
@@ -442,6 +490,7 @@ var NSVirtualScroll = (function()
         var arrSource = [];
         if(hasPageContentChanged || hasStartOffsetChanged) 
         {
+            this.__internal.isDomUpdating = true;
             if(itemPage.startOffset) 
             {
             	arrSource.push(this.__getExtraItem("nsVirtualTopItem",itemPage.startOffset));
@@ -453,14 +502,57 @@ var NSVirtualScroll = (function()
             }
             this.__fireCallback("pageWillChange",[this.__internal.currentItemPage,itemPage]);
             this.__setItemsInDom(arrSource);
+            /*this.__debugLog("__addItems AFTER DOM",{
+            	itemPage:{
+            		startOffset:itemPage.startOffset,
+            		endOffset:itemPage.endOffset,
+            		itemsBefore:itemPage.itemsBefore,
+            		itemCount:itemPage.arrItem ? itemPage.arrItem.length : 0
+            	},
+            	state:this.__getDebugScrollState()
+            });*/
             this.__handleTagAfterRender(itemPage);
             this.__fireCallback("pageChanged",[itemPage]);
             this.__internal.currentItemPage = itemPage;
+            var self = this;
+            if(this.__win && this.__win.requestAnimationFrame)
+            {
+            	this.__win.requestAnimationFrame(function()
+            	{
+            		//self.__debugLog("__addItems NEXT FRAME",self.__getDebugScrollState());
+            	});
+            }
+            this.__releaseDomUpdate();
         } 
         else if(hasEndOffsetChanged) 
         {
+            this.__internal.isDomUpdating = true;
+            //this.__debugLog("__addItems BOTTOM OFFSET BEFORE",this.__getDebugScrollState());
         	contentElement.lastChild.style[this.__objSelectedProp.size] = itemPage.endOffset + "px";
+            //this.__debugLog("__addItems BOTTOM OFFSET AFTER",this.__getDebugScrollState());
+            this.__releaseDomUpdate();
         }
+	};
+
+	NSVirtualScroll.prototype.__releaseDomUpdate = function()
+	{
+		var self = this;
+		if(this.__win && this.__win.requestAnimationFrame)
+		{
+			this.__win.requestAnimationFrame(function()
+			{
+				self.__internal.isDomUpdating = false;
+				//self.__debugLog("__releaseDomUpdate",self.__getDebugScrollState());
+			});
+		}
+		else
+		{
+			setTimeout(function()
+			{
+				self.__internal.isDomUpdating = false;
+				//self.__debugLog("__releaseDomUpdate",self.__getDebugScrollState());
+			},0);
+		}
 	};
 	
 	NSVirtualScroll.prototype.__setItemsInDom = function(arrItem,isAdd)
@@ -518,21 +610,21 @@ var NSVirtualScroll = (function()
 	{
 		if(this.__config.items && this.__config.items.length && this.__config.items.length > fromIndex)
 		{
-            toIndex = this.__config.items.length > toIndex ? toIndex : this.__config.items.length - 1;
+            toIndex = this.__config.items.length > toIndex ? toIndex : this.__config.items.length;
             var arrCloned = this.__config.items.slice();
 			var arrItem = arrCloned.splice(fromIndex,toIndex - fromIndex);
 			return arrItem;
 		}
 		else if(this.__config.totalLength && this.__config.getItemComponent)
 		{
-            fromIndex = this.__config.totalLength > fromIndex ? fromIndex : this.__config.totalLength - 1;
-            toIndex = this.__config.totalLength > toIndex ? toIndex : this.__config.totalLength - 1;
+            fromIndex = this.__config.totalLength > fromIndex ? fromIndex : this.__config.totalLength;
+            toIndex = this.__config.totalLength > toIndex ? toIndex : this.__config.totalLength;
             if(!this.__internal.arrItem) {
 				this.__internal.arrItem = [];
 			}
 			var arrItem = this.__internal.arrItem;
             var arrRet = [];
-			for(var count = fromIndex;count < toIndex + 1;count++)
+			for(var count = fromIndex;count < toIndex;count++)
 			{
                 if(arrItem.length > count && arrItem[count]) {
                     arrRet.push(arrItem[count]);
@@ -593,9 +685,11 @@ var NSVirtualScroll = (function()
 		}*/
 		else
 		{
-			var startIndex = Math.max((internal.itemsRendered - internal.pageSize) * pageNum, 0);
-	        var endIndex = startIndex + internal.itemsRendered;
             var totalLength = this.__getTotalLength();
+            pageNum = Math.min(Math.max(pageNum,0),this.__getMaxPageNum());
+			var startIndex = Math.max((internal.itemsRendered - internal.pageSize) * pageNum, 0);
+            startIndex = Math.min(startIndex,totalLength);
+	        var endIndex = Math.min(startIndex + internal.itemsRendered,totalLength);
 	        var startOffset = Math.max(startIndex * internal.itemDimension, 0);
 	        var endOffset = Math.max((totalLength - endIndex) * internal.itemDimension, 0);
 	        var itemsBefore = startIndex;
@@ -605,8 +699,18 @@ var NSVirtualScroll = (function()
 	        }
 	        var arrRet = this.__getAllItems(startIndex,endIndex);//arrItem.slice(startIndex,endIndex);
 	        retItem = {startOffset: startOffset,endOffset: endOffset,itemsBefore: itemsBefore,arrItem:arrRet};
+	        /*this.__debugLog("__getPageData",{
+	        	pageNum:pageNum,
+	        	totalLength:totalLength,
+	        	startIndex:startIndex,
+	        	endIndex:endIndex,
+	        	itemDimension:internal.itemDimension,
+	        	startOffset:startOffset,
+	        	endOffset:endOffset,
+	        	renderedItems:arrRet.length
+	        });*/
 		}
-		console.log(retItem);
+		//console.log(retItem);
 		return retItem;
 	};
 
@@ -682,10 +786,41 @@ var NSVirtualScroll = (function()
 	    return changed;
 	};
 	
+	NSVirtualScroll.prototype.__getMaxPageNum = function()
+	{
+		var totalLength = this.__getTotalLength();
+		var pageStep = this.__internal.itemsRendered - this.__internal.pageSize;
+		if(totalLength <= 0 || this.__internal.itemsRendered <= 0 || pageStep <= 0 || totalLength <= this.__internal.itemsRendered)
+		{
+			return 0;
+		}
+		return Math.ceil((totalLength - this.__internal.itemsRendered) / pageStep);
+	};
+
 	NSVirtualScroll.prototype.__getCurrentPageNum = function()
 	{
 		this.__internal.scrollPos = this.__config.scrollElement[this.__objSelectedProp.scroll];
-		var pageNum = Math.floor(this.__internal.scrollPos / (this.__internal.renderedSize - this.__internal.pageDimension)) || 0;
+		var pageStepSize = this.__internal.renderedSize - this.__internal.pageDimension;
+		if(pageStepSize <= 0)
+		{
+			/*this.__debugLog("__getCurrentPageNum INVALID PAGE SIZE",{
+				scrollPos:this.__internal.scrollPos,
+				renderedSize:this.__internal.renderedSize,
+				pageDimension:this.__internal.pageDimension,
+				pageStepSize:pageStepSize
+			});*/
+			return 0;
+		}
+		var calculatedPageNum = Math.floor(this.__internal.scrollPos / pageStepSize) || 0;
+		var maxPageNum = this.__getMaxPageNum();
+		var pageNum = Math.min(Math.max(calculatedPageNum,0),maxPageNum);
+		/*this.__debugLog("__getCurrentPageNum",{
+			scrollPos:this.__internal.scrollPos,
+			pageStepSize:pageStepSize,
+			calculatedPageNum:calculatedPageNum,
+			maxPageNum:maxPageNum,
+			returnedPageNum:pageNum
+		});*/
 		//console.log(this.__internal.scrollPos + "," + this.__internal.renderedSize + "," + this.__internal.pageDimension + "," + pageNum);
 		return pageNum;
 	};
@@ -767,6 +902,53 @@ var NSVirtualScroll = (function()
 		return parseInt(value,10) || 0;
 	};
 	
+	/*NSVirtualScroll.prototype.__debugLog = function(method,data)
+	{
+		if(NSVirtualScroll.DEBUG && typeof console != "undefined" && console.log)
+		{
+			console.log("[NSVS][" + method + "]",data);
+		}
+	};
+
+	NSVirtualScroll.prototype.__getDebugScrollState = function()
+	{
+		var scrollElement = this.__config.scrollElement;
+		var contentElement = this.__config.contentElement;
+		var arrHeight = [];
+
+		if(contentElement && contentElement.children)
+		{
+			for(var count = 0;count < contentElement.children.length;count++)
+			{
+				var child = contentElement.children[count];
+				if(!this.util.hasStyleClass(child,this.__internal.cssExtraItem))
+				{
+					arrHeight.push(child[this.__objSelectedProp.offset]);
+				}
+			}
+		}
+
+		var minHeight = arrHeight.length ? Math.min.apply(null,arrHeight) : 0;
+		var maxHeight = arrHeight.length ? Math.max.apply(null,arrHeight) : 0;
+
+		return {
+			scrollTop:scrollElement[this.__objSelectedProp.scroll],
+			scrollHeight:scrollElement[this.__objSelectedProp.scrollSize],
+			clientHeight:scrollElement.clientHeight,
+			distanceFromBottom:scrollElement[this.__objSelectedProp.scrollSize] - scrollElement[this.__objSelectedProp.scroll] - scrollElement.clientHeight,
+			itemDimension:this.__internal.itemDimension,
+			renderedRowCount:arrHeight.length,
+			minRenderedRowHeight:minHeight,
+			maxRenderedRowHeight:maxHeight,
+			firstRenderedRowHeight:arrHeight.length ? arrHeight[0] : 0,
+			lastRenderedRowHeight:arrHeight.length ? arrHeight[arrHeight.length - 1] : 0,
+			isDomUpdating:this.__internal.isDomUpdating,
+			lastPageNum:this.__internal.lastPageNum
+		};
+	};*/
+
+	NSVirtualScroll.DEBUG = true;
+
 	NSVirtualScroll.DIRECTION_VERTICAL = "vertical";
 	NSVirtualScroll.DIRECTION_HORIZONTAL = "horizontal";
 	
