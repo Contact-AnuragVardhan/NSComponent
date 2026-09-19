@@ -1,0 +1,73 @@
+.nsEditor .nsElemEditorResizer
+{
+	position: absolute;
+    border: 1px solid rgba(3,14,82,.92);
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    font-size: 0;
+}
+
+.nsEditor .nsElemEditorResizer .nsEditorResizerComp,
+.nsEditor .nsElemEditorResizer .nsEditorResizerSize
+{
+	position: absolute;
+    display: inline-block;
+}
+
+.nsEditor .nsElemEditorResizer .nsEditorResizerSize
+{
+	left: 50%;
+    top: 50%;
+    height: 24px;
+    width: 70px;
+    max-width: 100%;
+    margin-left: -35px;
+    margin-top: -12px;
+    line-height: 24px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .35);
+    opacity: 0;
+    transition: opacity .2s linear;
+    overflow: visible;
+}
+
+.nsEditor .nsElemEditorResizer .nsEditorResizerComp
+{
+	z-index: 4;
+    pointer-events: all;
+    border: 1px solid rgba(3,14,82,.92);
+    background-color: hsla(0,0%,88.2%,.99);
+    width: 10px;
+    height: 10px;
+}
+
+.nsEditor .nsElemEditorResizer .nsEditorResizerComp.nsEditorResizerTopLeft
+{
+	left: -5px;
+    top: -5px;
+    cursor: nw-resize;
+}
+
+.nsEditor .nsElemEditorResizer .nsEditorResizerComp.nsEditorResizerTopRight
+{
+	right: -5px;
+    top: -5px;
+    cursor: ne-resize;
+}
+
+.nsEditor .nsElemEditorResizer .nsEditorResizerComp.nsEditorResizerBottomLeft
+{
+	left: -5px;
+    bottom: -5px;
+    cursor: sw-resize;
+}
+
+.nsEditor .nsElemEditorResizer .nsEditorResizerComp.nsEditorResizerBottomRight
+{
+	right: -5px;
+    bottom: -5px;
+    cursor: se-resize;
+}

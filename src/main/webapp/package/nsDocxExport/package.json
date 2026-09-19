@@ -1,0 +1,10 @@
+{
+	"name": "nsdocxexport",
+	"version": "0.4.2",
+	"title": "nsDocxExport",
+	"description": "NSDocxExport Class",
+	"main": "nsDocxExport.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

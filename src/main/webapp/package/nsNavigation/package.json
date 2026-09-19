@@ -1,0 +1,11 @@
+{
+	"name": "nsnavigation",
+	"version": "0.4.2",
+	"title": "nsNavigation",
+	"description": "NSNavigation Class",
+	"main": "nsNavigation.min.js",
+	"dependencies": {
+		"nscontainerbase": "0.4.2",
+		"nscomputil": "0.4.2"
+	}
+}

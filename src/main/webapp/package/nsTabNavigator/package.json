@@ -1,0 +1,11 @@
+{
+	"name": "nstabnavigator",
+	"version": "0.4.2",
+	"title": "nsTabNavigator",
+	"description": "NSTabNavigator Class",
+	"main": "nsTabNavigator.min.js",
+	"dependencies": {
+		"nscontainerbase": "0.4.2",
+		"nscomputil": "0.4.2"
+	}
+}

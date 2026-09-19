@@ -1,0 +1,10 @@
+{
+	"name": "nspromise",
+	"version": "0.4.2",
+	"title": "nsPromise",
+	"description": "NSPromise Class",
+	"main": "nsPromise.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

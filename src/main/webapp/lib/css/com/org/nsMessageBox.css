@@ -1,0 +1,102 @@
+.nsMessageBox .nsPanelBody
+{
+	overflow: hidden;
+} 
+
+.nsMessageBox .nsMessageBoxHeader 
+{
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.nsMessageBox .nsMessageBoxTitle 
+{
+    margin: 0;
+    line-height: 1.42857143;
+}
+.nsMessageBox .nsMessageBoxContainer
+{
+	height:95%;
+}
+.nsMessageBox .nsMessageBoxBody 
+{
+    position: relative;
+    padding: 15px;
+    height: 80%;
+    overflow: auto;
+}
+.nsMessageBox .nsMessageBoxFooter 
+{
+    padding: 15px;
+    border-top: 1px solid #e5e5e5;
+    height: 20%;
+}
+
+.nsMessageBox .nsMessageBoxFooter .nsMessageBoxFooterLeft
+{
+	width: 50%;
+	float: left;
+	text-align: left;
+	height: 100%;	
+}
+
+.nsMessageBox .nsMessageBoxFooter .nsMessageBoxFooterRight
+{
+	width: 50%;
+	float: left;
+	text-align: right;	
+	height: 100%;
+}
+
+.nsMessageBox .nsMessageBoxClose 
+{
+	-webkit-appearance: none;
+	padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+.nsMessageBox .nsMessageBoxButtonContainer
+{
+	margin: 5px;
+	display: inline-block;
+	position: relative;
+}
+.nsPanelMessageBoxWhite
+{
+	background-color: #fefefe;
+}
+.nsPanelMessageBoxWhite .nsPanelTitleBar
+{
+	background-color: #ffffff;
+}
+.nsPanelMessageBoxWhite .nsPanelTitleBarContent
+{
+	color: #333;
+}
+.nsPanelMessageBoxWhite .nsPanelExpColIconUse 
+{
+  fill: #848484;
+  color: #F6F6F6;
+}
+.nsPanelMessageBoxWhite .nsPanelMinMaxIconUse 
+{
+  fill: #F6F6F6;
+  color: #848484;
+}
+/*.nsPanelMessageBoxWhite .nsPanelCloseIconUse 
+{
+  fill: #848484;
+  color: #F6F6F6;
+}*/
+.nsPanelMessageBoxWhite .nsPanelFullScreenIcon
+{
+  fill: #848484;
+  color: #F6F6F6;
+}

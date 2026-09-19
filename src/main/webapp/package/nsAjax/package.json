@@ -1,0 +1,10 @@
+{
+	"name": "nsajax",
+	"version": "0.4.2",
+	"title": "nsAjax",
+	"description": "NSAjax Class",
+	"main": "nsAjax.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

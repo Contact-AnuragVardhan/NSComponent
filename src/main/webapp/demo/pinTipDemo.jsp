@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tip</title>
+    <meta charset="utf-8">
+    <style>
+      
+     .btn 
+     {
+     	display: inline-block;
+     	margin: 100px 15px;
+        width: 200px;
+        height: 35px;
+        text-align: center;
+        position: relative;
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0px;
+		font-family: Arial;
+		font-size: 20px;
+		padding: 10px 20px 10px 20px;
+		text-decoration: none;
+	}
+	.btnBlack
+	{
+		background: #000000;
+		color: #ffffff;
+	}
+	.btnBlack 
+	{
+	  background: #000000;
+	  text-decoration: none;
+	}
+	.btnGray
+	{
+		background: #727272;
+		color: #ffffff;
+	}
+	.btnGray:hover 
+	{
+	  background: #727272;
+	  text-decoration: none;
+	}
+	.btnRed
+	{
+		background: #e13c37;
+		color: #ffffff;
+	}
+	.btnRed:hover 
+	{
+	  background: #e13c37;
+	  text-decoration: none;
+	}
+	.btnGreen
+	{
+		background: #4aab3a;
+		color: #ffffff;
+	}
+	.btnGreen:hover 
+	{
+	  background: #4aab3a;
+	  text-decoration: none;
+	}
+	.btnBlue
+	{
+		background: #45a3e3;
+		color: #ffffff;
+	}
+	.btnBlue:hover 
+	{
+	  background: #3cb0fd;
+	  text-decoration: none;
+	}
+	.btnYellow
+	{
+		background: #ffffa9;
+		color: #333;
+	}
+	.btnYellow 
+	{
+	  background: #ffffa9;
+	  text-decoration: none;
+	}
+	
+	.headerStyle 
+	{
+	  background-color: #ffffa9 !important;
+	}
+	      
+    </style>
+    	<link rel="stylesheet" type="text/css" href="/JSLib/lib/css/com/org/nsComponent.css">
+    	<link rel="stylesheet" type="text/css" href="/JSLib/lib/css/com/org/nsPinTip.css">
+    
+       <script src="../lib/com/org/util/nsUtil.js"></script>
+      <script src="../lib/com/org/util/nsPinTip.js"></script>
+  </head>
+  <body  onload="loadHandler();">
+  	<template id="templateDemo">
+  		<div>
+  		<h2>
+			This is template content.
+		</h2>
+		<p>
+			This text is defined in template.
+		</p>
+  		</div>
+  	</template>
+    <div style="min-width: 800px;">
+      <a href="#" class="btn btnBlack" id="top">Top and Large</a>
+      <a href="#" class="btn btnGray" id="bottom">Bottom</a>
+      <a href="#" class="btn btnRed" id="left">Left</a>
+      <a href="#" class="btn btnGreen" id="right">Right and small</a>
+      <a href="#" class="btn btnBlue" id="top-left">Top Left</a>
+      <a href="#" class="btn btnYellow" id="top-right">Top Right</a>
+      <a href="#" class="btn btnBlack" id="bottom-left">Bottom Left</a>
+      <a href="#" class="btn btnBlack" id="bottom-right">Bottom Right</a>
+      <a href="#" class="btn btnBlack" id="template">Template</a>
+      <a href="#" class="btn btnBlack" id="templateWithClose">Template With Close</a>
+      <a href="#" class="btn btnBlack" id="showWithClick">Show With Click</a>
+      <a href="#" class="btn btnBlack" id="showLargeHtml" onclick="showLargeHtml()">Show Large HTML</a>
+      
+    </div>
+    <script>
+    var arrNSTip = [];
+    var RED = "";
+    var GRAY = "#727272";
+    var GRAY_COLOR = "#ffffff";
+    var RED = "#e13c37";
+    var RED_COLOR = "#ffffff";
+    var GREEN = "#4aab3a";
+    var GREEN_COLOR = "#ffffff";
+    var BLUE = "#45a3e3";
+    var BLUE_COLOR = "#ffffff";
+    var YELLOW = "#ffffa9";
+    var YELLOW_COLOR = "#333";
+    
+    var nsPinShowLargeHtml = null;
+    function loadHandler()
+	{
+			setPos("top",null,null,"large");
+			setPos("bottom",GRAY,GRAY_COLOR);
+			setPos("left",RED,RED_COLOR);
+			setPos("right",GREEN,GREEN_COLOR,"small");
+			setPos("top-left",BLUE,BLUE_COLOR);
+			setPos("top-right",YELLOW,YELLOW_COLOR);
+			setPos("bottom-left");
+			setPos("bottom-right");
+			var param = {position:"top",showOnMouseHover:false,template:"templateDemo",style:"background-color: #e13c37",showInitially: true};
+			var template = document.getElementById("template");
+			var nsPin = new NSPinTip(template,param);
+			var customClass = {headerContainer:"headerStyle"};
+			var param1 = {position:"top",showOnMouseHover:false,template:"templateDemo",style:"background-color: #e13c37",customClass: customClass,closeRequired:true,title: null};
+			var templateWithClose = document.getElementById("templateWithClose");
+			var nsPinWithClose = new NSPinTip(templateWithClose,param1);
+			nsPinWithClose.show();
+			
+			var param2 = {position:"bottom-left",showOnMouseHover:false,showEvent:"click",template:"templateDemo",style:"background-color: #e13c37",customClass: customClass,closeRequired:true,title: "Demo Title",
+					closeOnOutsideClick: true};
+			var showWithClick = document.getElementById("showWithClick");
+			var nsPinShowWithClick = new NSPinTip(showWithClick,param2);
+	}
+    
+    function showLargeHtml()
+    {
+    	var isInitial = true; 
+    	if(!nsPinShowLargeHtml)
+    	{
+    		var customClass = {headerContainer:"headerStyle"};
+        	var param3 = {position:"top",showOnMouseHover:false,renderer:largeHtmlRenderer,style:"background-color: #e13c37;height:200px;width:300px;",customClass: customClass,closeRequired:true,
+        				  title: "Demo Title",closeOnOutsideClick: true,showInitially: true,closeOnScroll: true};
+    		var showLargeHtml = document.getElementById("showLargeHtml");
+    		nsPinShowLargeHtml = new NSPinTip(showLargeHtml,param3);
+    		showLargeHtml.addEventListener(NSPinTip.SCROLLED,function(event){
+    			if(!isInitial)
+    			{
+    				if(nsPinShowLargeHtml.isVisible())
+    				{
+    					//nsPinShowLargeHtml.remove();
+    				}
+    			}
+    			isInitial = false;
+    		});
+    	}
+    	else
+    	{
+    		if(!nsPinShowLargeHtml.isVisible())
+    		{
+        		nsPinShowLargeHtml.show();
+    		}
+    	}
+    }
+    
+    function largeHtmlRenderer(element,setting)
+    {
+    	var html = "<html>\r\n" + 
+    	"<body>\r\n" + 
+    	"	<p><strong>New York City</strong>&nbsp;(<strong>NYC</strong>), also known as the&nbsp;<strong>City of New York</strong>&nbsp;or simply&nbsp;<strong>New York</strong>&nbsp;(<strong>NY</strong>), is the&nbsp;<a title=\"List of United States cities by population\" href=\"https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population\">most populous city</a>&nbsp;in the&nbsp;<a title=\"United States\" href=\"https://en.wikipedia.org/wiki/United_States\">United States</a>. With an estimated 2018 population of 8,398,748 distributed over a land area of about 302.6 square miles (784&nbsp;km<sup>2</sup>), New York is also the&nbsp;<a title=\"List of United States cities by population density\" href=\"https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population_density\">most densely populated</a>&nbsp;major city in the United States.<sup id=\"cite_ref-density_10-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-density-10\">[10]</a></sup>&nbsp;Located at the southern tip of the state of&nbsp;<a title=\"New York (state)\" href=\"https://en.wikipedia.org/wiki/New_York_(state)\">New York</a>, the city is the center of the&nbsp;<a title=\"New York metropolitan area\" href=\"https://en.wikipedia.org/wiki/New_York_metropolitan_area\">New York metropolitan area</a>, the largest&nbsp;<a title=\"Metropolitan area\" href=\"https://en.wikipedia.org/wiki/Metropolitan_area\">metropolitan area</a>&nbsp;in the world by&nbsp;<a title=\"Urban area\" href=\"https://en.wikipedia.org/wiki/Urban_area\">urban landmass</a><sup id=\"cite_ref-11\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-11\">[11]</a></sup>&nbsp;and one of the world's most populous&nbsp;<a title=\"Megacity\" href=\"https://en.wikipedia.org/wiki/Megacity\">megacities</a>,<sup id=\"cite_ref-12\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-12\">[12]</a></sup><sup id=\"cite_ref-13\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-13\">[13]</a></sup>&nbsp;with an estimated 19,979,477 people in its 2018&nbsp;<a title=\"List of metropolitan statistical areas\" href=\"https://en.wikipedia.org/wiki/List_of_metropolitan_statistical_areas\">Metropolitan Statistical Area</a>&nbsp;and 22,679,948 residents in its&nbsp;<a class=\"mw-redirect\" title=\"List of Combined Statistical Areas\" href=\"https://en.wikipedia.org/wiki/List_of_Combined_Statistical_Areas\">Combined Statistical Area</a>.<sup id=\"cite_ref-MetroEst_3-1\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-MetroEst-3\">[3]</a></sup><sup id=\"cite_ref-CombinedEst_4-1\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-CombinedEst-4\">[4]</a></sup>&nbsp;A&nbsp;<a title=\"Global city\" href=\"https://en.wikipedia.org/wiki/Global_city\">global power city</a>,<sup id=\"cite_ref-14\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-14\">[14]</a></sup>&nbsp;New York City has been described as the&nbsp;<a title=\"Culture of New York City\" href=\"https://en.wikipedia.org/wiki/Culture_of_New_York_City\">cultural</a>,<sup id=\"cite_ref-NYCWorld'sGreatestCity_15-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCWorld'sGreatestCity-15\">[15]</a></sup><sup id=\"cite_ref-cultural2_16-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-cultural2-16\">[16]</a></sup><sup id=\"cite_ref-cultural3_17-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-cultural3-17\">[17]</a></sup><sup id=\"cite_ref-cultural4_18-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-cultural4-18\">[18]</a></sup><sup id=\"cite_ref-cultural5_19-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-cultural5-19\">[19]</a></sup>&nbsp;<a title=\"Wall Street\" href=\"https://en.wikipedia.org/wiki/Wall_Street\">financial</a>,<sup id=\"cite_ref-NYCDominantFinancialCenter_20-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCDominantFinancialCenter-20\">[20]</a></sup><sup id=\"cite_ref-NYCDominantFinancialCenter1_21-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCDominantFinancialCenter1-21\">[21]</a></sup><sup id=\"cite_ref-WorldEconomicAndFinancialSuperCenter_22-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-WorldEconomicAndFinancialSuperCenter-22\">[22]</a></sup>&nbsp;and&nbsp;<a title=\"Media in New York City\" href=\"https://en.wikipedia.org/wiki/Media_in_New_York_City\">media</a>&nbsp;capital of the world,<sup id=\"cite_ref-23\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-23\">[23]</a></sup><sup id=\"cite_ref-NYCWorld'sMediaCapitalLargestPrideParade_24-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCWorld'sMediaCapitalLargestPrideParade-24\">[24]</a></sup>&nbsp;and exerts a significant impact upon commerce,<sup id=\"cite_ref-WorldEconomicAndFinancialSuperCenter_22-1\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-WorldEconomicAndFinancialSuperCenter-22\">[22]</a></sup>&nbsp;entertainment, research, technology, education, politics, tourism, art, fashion, and sports. The city's fast&nbsp;<a title=\"Pace (speed)\" href=\"https://en.wikipedia.org/wiki/Pace_(speed)\">pace</a><sup id=\"cite_ref-FastPaceNYC1_25-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-FastPaceNYC1-25\">[25]</a></sup><sup id=\"cite_ref-FastPaceNYC2_26-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-FastPaceNYC2-26\">[26]</a></sup><sup id=\"cite_ref-FastPaceNYC3_27-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-FastPaceNYC3-27\">[27]</a></sup>&nbsp;has inspired the term&nbsp;<em><a class=\"extiw\" title=\"wikt:New York minute\" href=\"https://en.wiktionary.org/wiki/New_York_minute\">New York minute</a></em>.<sup id=\"cite_ref-NewYorkMinuteDefinition_28-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NewYorkMinuteDefinition-28\">[28]</a></sup>&nbsp;Home to the&nbsp;<a title=\"Headquarters of the United Nations\" href=\"https://en.wikipedia.org/wiki/Headquarters_of_the_United_Nations\">headquarters of the United Nations</a>,<sup id=\"cite_ref-29\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-29\">[29]</a></sup>&nbsp;New York is an important center for&nbsp;<a title=\"Diplomacy\" href=\"https://en.wikipedia.org/wiki/Diplomacy\">international diplomacy</a>.<sup id=\"cite_ref-30\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-30\">[30]</a></sup><sup id=\"cite_ref-31\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-31\">[31]</a></sup></p>\r\n" + 
+    	"<p>Situated on&nbsp;<a title=\"New York Harbor\" href=\"https://en.wikipedia.org/wiki/New_York_Harbor\">one of the world's largest natural harbors</a>,<sup id=\"cite_ref-32\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-32\">[32]</a></sup><sup id=\"cite_ref-33\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-33\">[33]</a></sup>&nbsp;New York City consists of five&nbsp;<a title=\"Boroughs of New York City\" href=\"https://en.wikipedia.org/wiki/Boroughs_of_New_York_City\">boroughs</a>, each of which is a separate&nbsp;<a title=\"List of counties in New York\" href=\"https://en.wikipedia.org/wiki/List_of_counties_in_New_York\">county of the State of New York</a>.<sup id=\"cite_ref-34\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-34\">[34]</a></sup>&nbsp;The five boroughs &ndash;&nbsp;<a title=\"Brooklyn\" href=\"https://en.wikipedia.org/wiki/Brooklyn\">Brooklyn</a>,&nbsp;<a title=\"Queens\" href=\"https://en.wikipedia.org/wiki/Queens\">Queens</a>,&nbsp;<a title=\"Manhattan\" href=\"https://en.wikipedia.org/wiki/Manhattan\">Manhattan</a>,&nbsp;<a title=\"The Bronx\" href=\"https://en.wikipedia.org/wiki/The_Bronx\">The Bronx</a>, and&nbsp;<a title=\"Staten Island\" href=\"https://en.wikipedia.org/wiki/Staten_Island\">Staten Island</a>&nbsp;&ndash; were consolidated into a single city in 1898.<sup id=\"cite_ref-35\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-35\">[35]</a></sup>&nbsp;The city and its metropolitan area constitute the premier gateway for legal&nbsp;<a title=\"Immigration to the United States\" href=\"https://en.wikipedia.org/wiki/Immigration_to_the_United_States\">immigration to the United States</a>.<sup id=\"cite_ref-Immigrants2014est_36-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-Immigrants2014est-36\">[36]</a></sup>&nbsp;As many as 800 languages are spoken in New York,<sup id=\"cite_ref-QueensMostLinguisticallyDiverse_37-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-QueensMostLinguisticallyDiverse-37\">[37]</a></sup><sup id=\"cite_ref-38\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-38\">[38]</a></sup><sup id=\"cite_ref-800source2_39-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-800source2-39\">[39]</a></sup><sup id=\"cite_ref-800source3_40-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-800source3-40\">[40]</a></sup>&nbsp;making it the most&nbsp;<a title=\"Linguistics\" href=\"https://en.wikipedia.org/wiki/Linguistics\">linguistically</a>&nbsp;diverse city in the world.<sup id=\"cite_ref-800source2_39-1\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-800source2-39\">[39]</a></sup><sup id=\"cite_ref-41\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-41\">[41]</a></sup><sup id=\"cite_ref-42\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-42\">[42]</a></sup>&nbsp;New York City is home to 3.2&nbsp;million residents born outside the United States,<sup id=\"cite_ref-NYCForeignBorn_43-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCForeignBorn-43\">[43]</a></sup>&nbsp;the largest&nbsp;<a title=\"Foreign born\" href=\"https://en.wikipedia.org/wiki/Foreign_born\">foreign born</a>&nbsp;population of any city in the world as of 2016.<sup id=\"cite_ref-NYCHighestForeignBorn_44-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCHighestForeignBorn-44\">[44]</a></sup>&nbsp;As of 2019, the New York metropolitan area is estimated to produce a&nbsp;<a title=\"List of U.S. metropolitan areas by GDP\" href=\"https://en.wikipedia.org/wiki/List_of_U.S._metropolitan_areas_by_GDP\">gross metropolitan product</a>&nbsp;(<a title=\"Gross metropolitan product\" href=\"https://en.wikipedia.org/wiki/Gross_metropolitan_product\">GMP</a>) of US$1.9&nbsp;trillion.<sup id=\"cite_ref-NYCMetroGMP_8-1\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCMetroGMP-8\">[8]</a></sup>&nbsp;If greater New York City were a&nbsp;<a title=\"Sovereign state\" href=\"https://en.wikipedia.org/wiki/Sovereign_state\">sovereign state</a>, it would have the&nbsp;<a title=\"List of countries by GDP (nominal)\" href=\"https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)\">12th highest GDP</a>&nbsp;in the world.<sup id=\"cite_ref-45\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-45\">[45]</a></sup>&nbsp;New York is home to the highest number of billionaires of any city in the world.<sup id=\"cite_ref-NYCBillionaires_46-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCBillionaires-46\">[46]</a></sup></p>\r\n" + 
+    	"<p>New York City traces its origins to a trading post founded by colonists from the&nbsp;<a title=\"Dutch Republic\" href=\"https://en.wikipedia.org/wiki/Dutch_Republic\">Dutch Republic</a>&nbsp;in 1624 on&nbsp;<a title=\"Lower Manhattan\" href=\"https://en.wikipedia.org/wiki/Lower_Manhattan\">Lower Manhattan</a>; the post was named&nbsp;<a title=\"New Amsterdam\" href=\"https://en.wikipedia.org/wiki/New_Amsterdam\">New Amsterdam</a>&nbsp;in 1626.<sup id=\"cite_ref-u-s-history.com_47-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-u-s-history.com-47\">[47]</a></sup>&nbsp;The city and its surroundings came under English control in 1664<sup id=\"cite_ref-u-s-history.com_47-1\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-u-s-history.com-47\">[47]</a></sup>&nbsp;and were renamed&nbsp;<em>New York</em>&nbsp;after King&nbsp;<a title=\"Charles II of England\" href=\"https://en.wikipedia.org/wiki/Charles_II_of_England\">Charles II of England</a>&nbsp;granted the lands to his brother, the&nbsp;<a title=\"James II of England\" href=\"https://en.wikipedia.org/wiki/James_II_of_England\">Duke of York</a>.<sup id=\"cite_ref-48\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-48\">[48]</a></sup>&nbsp;New York was the&nbsp;<a title=\"List of capitals in the United States\" href=\"https://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States#Capitals_of_the_US\">capital of the United States</a>&nbsp;from 1785 until 1790,<sup id=\"cite_ref-senate_49-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-senate-49\">[49]</a></sup>&nbsp;and has been the largest US city since 1790.<sup id=\"cite_ref-50\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-50\">[50]</a></sup>&nbsp;The&nbsp;<a title=\"Statue of Liberty\" href=\"https://en.wikipedia.org/wiki/Statue_of_Liberty\">Statue of Liberty</a>&nbsp;greeted millions of immigrants as they came to the U.S. by ship in the late 19th and early 20th centuries<sup id=\"cite_ref-51\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-51\">[51]</a></sup>&nbsp;and is an international symbol of the U.S. and its ideals of liberty and peace.<sup id=\"cite_ref-52\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-52\">[52]</a></sup>&nbsp;In the 21st century, New York has emerged as a global node of&nbsp;<a title=\"Innovation\" href=\"https://en.wikipedia.org/wiki/Innovation\">creativity</a>&nbsp;and&nbsp;<a title=\"Entrepreneurship\" href=\"https://en.wikipedia.org/wiki/Entrepreneurship\">entrepreneurship</a>,<sup id=\"cite_ref-VentureCapitalNY1_53-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-VentureCapitalNY1-53\">[53]</a></sup>&nbsp;<a class=\"mw-redirect\" title=\"Social tolerance\" href=\"https://en.wikipedia.org/wiki/Social_tolerance\">social tolerance</a>,<sup id=\"cite_ref-SocialToleranceNY1_54-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-SocialToleranceNY1-54\">[54]</a></sup>&nbsp;and&nbsp;<a title=\"Sustainability\" href=\"https://en.wikipedia.org/wiki/Sustainability\">environmental sustainability</a>,<sup id=\"cite_ref-EnvironmentalSustainabilityNY1_55-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-EnvironmentalSustainabilityNY1-55\">[55]</a></sup><sup id=\"cite_ref-EnvironmentalSustainabilityNY2_56-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-EnvironmentalSustainabilityNY2-56\">[56]</a></sup>&nbsp;and as a symbol of&nbsp;<a title=\"Freedom\" href=\"https://en.wikipedia.org/wiki/Freedom\">freedom</a>&nbsp;and&nbsp;<a title=\"Cultural diversity\" href=\"https://en.wikipedia.org/wiki/Cultural_diversity\">cultural diversity</a>.<sup id=\"cite_ref-57\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-57\">[57]</a></sup>&nbsp;In 2019, New York was voted the greatest city in the world per a&nbsp;<a title=\"Survey (human research)\" href=\"https://en.wikipedia.org/wiki/Survey_(human_research)\">survey</a>&nbsp;of over 30,000 people from 48 cities worldwide, citing its cultural diversity.<sup id=\"cite_ref-NYCWorld'sGreatestCity_15-1\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCWorld'sGreatestCity-15\">[15]</a></sup></p>\r\n" + 
+    	"<p>Many&nbsp;<a title=\"Lists of New York City landmarks\" href=\"https://en.wikipedia.org/wiki/Lists_of_New_York_City_landmarks\">districts and landmarks</a>&nbsp;in New York City are well known, including three of the world's ten most visited tourist attractions in 2013;<sup id=\"cite_ref-Ann_Shields_58-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-Ann_Shields-58\">[58]</a></sup>&nbsp;a record 62.8&nbsp;million tourists visited in 2017.<sup id=\"cite_ref-NYCTouristCount_59-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCTouristCount-59\">[59]</a></sup>&nbsp;Several sources have ranked New York the most photographed city in the world.<sup id=\"cite_ref-60\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-60\">[60]</a></sup><sup id=\"cite_ref-61\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-61\">[61]</a></sup>&nbsp;<a title=\"Times Square\" href=\"https://en.wikipedia.org/wiki/Times_Square\">Times Square</a>, iconic as the world's \"heart\"<sup id=\"cite_ref-TransformingTimesSquare_62-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-TransformingTimesSquare-62\">[62]</a></sup>&nbsp;and \"crossroads\",<sup id=\"cite_ref-63\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-63\">[63]</a></sup>&nbsp;is the brightly illuminated hub of the&nbsp;<a class=\"mw-redirect\" title=\"Broadway Theater District\" href=\"https://en.wikipedia.org/wiki/Broadway_Theater_District\">Broadway Theater District</a>,<sup id=\"cite_ref-64\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-64\">[64]</a></sup>&nbsp;one of the world's busiest&nbsp;<a title=\"Pedestrian\" href=\"https://en.wikipedia.org/wiki/Pedestrian\">pedestrian intersections</a>,<sup id=\"cite_ref-65\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-65\">[65]</a></sup><sup id=\"cite_ref-66\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-66\">[66]</a></sup>&nbsp;and a major center of the world's&nbsp;<a class=\"mw-redirect\" title=\"Entertainment industry\" href=\"https://en.wikipedia.org/wiki/Entertainment_industry\">entertainment industry</a>.<sup id=\"cite_ref-67\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-67\">[67]</a></sup>&nbsp;The names of many of the city's landmarks,&nbsp;<a title=\"List of tallest buildings in New York City\" href=\"https://en.wikipedia.org/wiki/List_of_tallest_buildings_in_New_York_City\">skyscrapers</a>,<sup id=\"cite_ref-68\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-68\">[68]</a></sup>&nbsp;and&nbsp;<a title=\"List of New York City parks\" href=\"https://en.wikipedia.org/wiki/List_of_New_York_City_parks\">parks</a>&nbsp;are known internationally. Manhattan's real estate market is among the most expensive in the world.<sup id=\"cite_ref-69\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-69\">[69]</a></sup><sup id=\"cite_ref-70\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-70\">[70]</a></sup>&nbsp;New York is home to the largest&nbsp;<a title=\"Overseas Chinese\" href=\"https://en.wikipedia.org/wiki/Overseas_Chinese\">ethnic Chinese</a>&nbsp;population outside of Asia,<sup id=\"cite_ref-NYCLargestChinesePopulation_71-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCLargestChinesePopulation-71\">[71]</a></sup><sup id=\"cite_ref-queensbuzz_72-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-queensbuzz-72\">[72]</a></sup>&nbsp;with multiple distinct&nbsp;<a title=\"Chinese in New York City\" href=\"https://en.wikipedia.org/wiki/Chinese_in_New_York_City\">Chinatowns</a>&nbsp;across the city.<sup id=\"cite_ref-NYCMultipleChinatowns_73-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYCMultipleChinatowns-73\">[73]</a></sup><sup id=\"cite_ref-74\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-74\">[74]</a></sup><sup id=\"cite_ref-75\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-75\">[75]</a></sup>&nbsp;Providing continuous 24/7 service,<sup id=\"cite_ref-twentyfour_76-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-twentyfour-76\">[76]</a></sup>&nbsp;the&nbsp;<a title=\"New York City Subway\" href=\"https://en.wikipedia.org/wiki/New_York_City_Subway\">New York City Subway</a>&nbsp;is the largest single-operator&nbsp;<a title=\"Rapid transit\" href=\"https://en.wikipedia.org/wiki/Rapid_transit\">rapid transit</a>&nbsp;system worldwide, with 472&nbsp;<a title=\"Train station\" href=\"https://en.wikipedia.org/wiki/Train_station\">rail stations</a>.<sup id=\"cite_ref-77\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-77\">[77]</a></sup><sup id=\"cite_ref-78\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-78\">[78]</a></sup><sup id=\"cite_ref-79\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-79\">[79]</a></sup>&nbsp;The city has&nbsp;<a title=\"List of colleges and universities in New York City\" href=\"https://en.wikipedia.org/wiki/List_of_colleges_and_universities_in_New_York_City\">over 120 colleges and universities</a>, including&nbsp;<a title=\"Columbia University\" href=\"https://en.wikipedia.org/wiki/Columbia_University\">Columbia University</a>,&nbsp;<a title=\"New York University\" href=\"https://en.wikipedia.org/wiki/New_York_University\">New York University</a>, and&nbsp;<a title=\"Rockefeller University\" href=\"https://en.wikipedia.org/wiki/Rockefeller_University\">Rockefeller University</a>, ranked among the top universities in the world.<sup id=\"cite_ref-ARWU_80-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-ARWU-80\">[80]</a></sup><sup id=\"cite_ref-CWUR_81-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-CWUR-81\">[81]</a></sup>&nbsp;Anchored by&nbsp;<a title=\"Wall Street\" href=\"https://en.wikipedia.org/wiki/Wall_Street\">Wall Street</a>&nbsp;in the&nbsp;<a title=\"Financial District, Manhattan\" href=\"https://en.wikipedia.org/wiki/Financial_District,_Manhattan\">Financial District</a>&nbsp;of Lower Manhattan, New York has been called both the most economically powerful city and world's leading financial center,<sup id=\"cite_ref-WorldEconomicAndFinancialSuperCenter_22-2\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-WorldEconomicAndFinancialSuperCenter-22\">[22]</a></sup><sup id=\"cite_ref-WorldFinanceCapitalForeignPolicy_82-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-WorldFinanceCapitalForeignPolicy-82\">[82]</a></sup><sup id=\"cite_ref-EconomicallyPowerful2015_83-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-EconomicallyPowerful2015-83\">[83]</a></sup><sup id=\"cite_ref-84\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-84\">[84]</a></sup>&nbsp;and is home to the world's two&nbsp;<a title=\"List of stock exchanges\" href=\"https://en.wikipedia.org/wiki/List_of_stock_exchanges\">largest stock exchanges</a>&nbsp;by total&nbsp;<a title=\"Market capitalization\" href=\"https://en.wikipedia.org/wiki/Market_capitalization\">market capitalization</a>, the&nbsp;<a title=\"New York Stock Exchange\" href=\"https://en.wikipedia.org/wiki/New_York_Stock_Exchange\">New York Stock Exchange</a>&nbsp;and&nbsp;<a class=\"mw-redirect\" title=\"NASDAQ\" href=\"https://en.wikipedia.org/wiki/NASDAQ\">NASDAQ</a>.<sup id=\"cite_ref-NYSElargest_85-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYSElargest-85\">[85]</a></sup><sup id=\"cite_ref-NYSEhighestcap_86-0\" class=\"reference\"><a href=\"https://en.wikipedia.org/wiki/New_York_City#cite_note-NYSEhighestcap-86\">[86]</a></sup></p>\r\n" + 
+    	"</body>\r\n" + 
+    	"</html>"; 
+    	
+    	return html;
+    }
+    
+    function setPos(position,backgroundColor,color,size)
+    {
+    	var param = {position:position,text:"This is a PinTip",enableAnimation:false};
+    	if(size)
+    	{
+    		param["size"] = size;
+    	}
+    	if(backgroundColor)
+    	{
+    		param["style"] = "background-color:" + backgroundColor + ";color: " + color;
+    	}
+		var aPos = document.getElementById(position);
+		arrNSTip[position] = new NSPinTip(aPos,param);
+    }
+    </script>
+  </body>
+</html>

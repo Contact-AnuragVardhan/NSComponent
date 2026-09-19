@@ -1,0 +1,33 @@
+.nsEditorFullScreenParent 
+{
+/*     z-index: 100000!important; */
+    position: static!important;
+    overflow: visible!important
+}
+
+html.nsEditorFullScreenParent,body.nsEditorFullScreenParent 
+{
+    height: 0!important;
+    width: 0!important;
+    overflow: initial!important
+}
+
+html.nsEditorFullScreenParent 
+{
+    position: fixed!important
+}
+
+.nsEditorFullScreen 
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    max-width: none!important
+}
+.nsEditorFullScreen .nsEditorToolBarContainer,.nsEditorFullScreen .nsEditorTabContainer 
+{
+    width: 100%!important
+}

@@ -1,0 +1,10 @@
+{
+	"name": "nsxlsxexport",
+	"version": "0.4.2",
+	"title": "nsXlsxExport",
+	"description": "NSXlsxExport Class",
+	"main": "nsXlsxExport.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

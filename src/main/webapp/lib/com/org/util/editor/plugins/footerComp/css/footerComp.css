@@ -1,0 +1,53 @@
+.nsEditor .nsEditorFooterContainer .nsEditorWordsContainer,
+.nsEditor .nsEditorFooterContainer .nsEditorCharsContainer
+{
+	padding: 10px;
+	color: #999999;
+	font-size: 14px;
+    font-family: sans-serif;
+}
+.nsEditor .nsEditorFooterContainer .nsEditorElementPathContainer
+{
+	margin-left: 5px;
+	color: #999999;
+	font-size: 12px;
+    font-family: sans-serif;
+    white-space: nowrap;
+}
+.nsEditor .nsEditorFooterContainer .nsEditorElementPathContainer .nsEditorElementPath
+{
+	position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.nsEditor .nsEditorFooterContainer .nsEditorElementPathContainer .nsEditorElementPath .nsEditorElementPathItem
+{
+/* 	margin-right: 5px; */
+}
+.nsEditor .nsEditorFooterContainer .nsEditorElementPathContainer .nsEditorElementPath .nsEditorElementPathItem a
+{
+	text-decoration: none;
+    cursor: default;
+    border-radius: 3px;
+    user-select: none;
+    display: inline-block;
+    vertical-align: baseline;
+    text-align: left;
+    white-space: nowrap;
+    padding: 2px 3px;
+    line-height: 10px;
+    outline: 0;
+    border: 0;
+    color: #222;
+}
+.nsEditor .nsEditorFooterContainer .nsEditorElementPathContainer .nsEditorElementPath .nsEditorElementPathItem a:hover
+{
+	background-color: hsla(0,0%,88.2%,.99);
+    text-decoration: none;
+    color: #222;
+}

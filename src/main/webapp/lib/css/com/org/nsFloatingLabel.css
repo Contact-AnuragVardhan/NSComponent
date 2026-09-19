@@ -1,0 +1,224 @@
+/*Concept from https://codepen.io/chriscoyier/pen/CiflJ*/
+.nsFloatingLabel 
+{
+	/*width: 100%;*/
+	overflow: hidden;
+	text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.nsFloatingLabel .nsFloatingLabelConatiner 
+{
+	position: relative;
+	overflow: hidden;
+}
+.nsFloatingLabel .nsFloatingLabelControl
+{
+	background: none;
+	position: relative;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	padding: 6px 12px;
+	outline: 0;
+}
+.nsFloatingLabel.nsFloatingLabelActive .nsFloatingLabelLabel
+{
+	opacity: 1;
+    visibility: visible;
+	font-size: 70%;
+	padding: 1px 6px;
+	z-index: 2;
+}
+.nsFloatingLabel .nsFloatingLabelLabel
+{
+	opacity: 0;
+    visibility: hidden;
+	box-sizing: border-box;
+	transition: all 0.2s ease-in-out;
+	position: absolute;
+	padding: 7px 6px;
+	cursor: pointer;
+}
+.nsFloatingLabel .nsFloatingLabelTextArea 
+{
+	display: block;
+	resize: vertical;
+}
+/**top css starts **/
+.nsFloatingLabel.nsFloatingLabelTop
+{
+	overflow: visible;/* default value for overflow*/
+}
+.nsFloatingLabel.nsFloatingLabelTop .nsFloatingLabelConatiner 
+{
+	overflow: visible;/* default value for overflow*/
+}
+.nsFloatingLabel.nsFloatingLabelTop .nsFloatingLabelControl 
+{
+	width: calc(100% - 28px);/*12 * 2(padding) + 2 * 2(margin)*/
+}
+.nsFloatingLabel.nsFloatingLabelTop.nsFloatingLabelTopTop .nsFloatingLabelControl 
+{
+}
+.nsFloatingLabel.nsFloatingLabelTop.nsFloatingLabelTopMiddle .nsFloatingLabelControl 
+{
+  	padding: 6px 12px;
+}
+.nsFloatingLabel.nsFloatingLabelTop.nsFloatingLabelTopBottom .nsFloatingLabelControl 
+{
+	padding: 18px 12px 6px;
+}
+.nsFloatingLabel.nsFloatingLabelTop .nsFloatingLabelLabel 
+{
+	font-size: 12px;
+    line-height: 1;
+}
+.nsFloatingLabel.nsFloatingLabelTop.nsFloatingLabelTopTop .nsFloatingLabelLabel
+{
+	top: -14px;
+    left: 0;
+}
+.nsFloatingLabel.nsFloatingLabelTop.nsFloatingLabelTopMiddle .nsFloatingLabelLabel:before
+{
+	content: '';
+    display: block;
+    position: absolute;
+    top: 9px;
+    left: 0;
+    right: 0;
+    height: 2px;/*border size */
+    z-index: -1;
+}
+.nsFloatingLabel.nsFloatingLabelTop.nsFloatingLabelTopMiddle .nsFloatingLabelLabel 
+{
+	top: -9px;
+  	left: 10px;
+    background-color: transparent;
+    padding: 3px;
+}
+.nsFloatingLabel.nsFloatingLabelTop.nsFloatingLabelTopBottom .nsFloatingLabelLabel 
+{
+	top: 1px;
+    left: 10px;
+    padding: 6px 3px 3px;
+}
+
+/**top css ends **/
+/**Bottom css starts **/
+.nsFloatingLabel.nsFloatingLabelBottom .nsFloatingLabelControl 
+{
+	width: calc(100% - 16px);/*6 * 2(padding) + 2 * 2(margin)*/
+  	padding: 12px 6px 12px 6px;
+}
+.nsFloatingLabel.nsFloatingLabelBottom .nsFloatingLabelLabel 
+{
+  	top: 0;
+  	bottom: 0;
+  	left: 0;
+  	width: calc(100% - 4px);
+}
+.nsFloatingLabel.nsFloatingLabelBottom.nsFloatingLabelActive .nsFloatingLabelControl
+{
+  	padding: 4px 6px 20px 6px;
+}
+.nsFloatingLabel.nsFloatingLabelBottom.nsFloatingLabelActive .nsFloatingLabelLabel
+{
+  	top: 100%;
+  	margin: -16px 2px 0px 2px;
+}
+/**Bottom css ends **/
+/**Right css starts **/
+.nsFloatingLabel.nsFloatingLabelRight .nsFloatingLabelControl
+{
+	width: calc(100% - 28px);/*12 * 2(padding) + 2 * 4(margin)*/
+}
+
+.nsFloatingLabel.nsFloatingLabelRight .nsFloatingLabelLabel 
+{
+  	top: 2px;
+  	right: 100%;
+  	width: 100%;
+  	margin-right: -100%;
+  	bottom: 2px;
+}
+.nsFloatingLabel.nsFloatingLabelRight.nsFloatingLabelActive .nsFloatingLabelLabel
+{
+  	right: 0;
+  	margin-right: 0;
+  	width: 25%;
+  	padding-top: 5px;
+  	margin-right: 2px;
+}
+/**Right css ends **/
+
+.nsFloatingLabelWhite .nsFloatingLabelControl 
+{
+	border: 2px solid #dfdfdf;
+}
+.nsFloatingLabelWhite.nsFloatingLabelBottom.nsFloatingLabelActive .nsFloatingLabelLabel,
+.nsFloatingLabelWhite.nsFloatingLabelRight.nsFloatingLabelActive .nsFloatingLabelLabel
+{
+	background: #1976D2;
+	color: white;
+}
+.nsFloatingLabelWhite .nsFloatingLabelLabel
+{
+	color: #999;
+}
+.nsFloatingLabelWhite.nsFloatingLabelFocus .nsFloatingLabelControl
+{
+	border-color: #1976D2;
+}
+.nsFloatingLabelWhite.nsFloatingLabelTop.nsFloatingLabelTopMiddle .nsFloatingLabelLabel:before
+{
+	background-color: #fff;
+}
+.nsFloatingLabelWhite.nsFloatingLabelFocus.nsFloatingLabelTop .nsFloatingLabelLabel
+{
+	color: #1976D2;
+}
+
+.nsFloatingLabelBlack .nsFloatingLabelControl
+{
+	border: 2px solid #dfdfdf;
+	color: white;
+}
+.nsFloatingLabelBlack.nsFloatingLabelBottom.nsFloatingLabelActive .nsFloatingLabelLabel,
+.nsFloatingLabelBlack.nsFloatingLabelRight.nsFloatingLabelActive .nsFloatingLabelLabel
+{
+	background: #1976D2;
+	color: white;
+}
+.nsFloatingLabelBlack .nsFloatingLabelLabel
+{
+	color: #FFFFFF;
+}
+.nsFloatingLabelBlack.nsFloatingLabelFocus .nsFloatingLabelControl
+{
+	border-color: #1976D2;
+}
+.nsFloatingLabelBlack.nsFloatingLabelTop.nsFloatingLabelTopMiddle .nsFloatingLabelLabel:before
+{
+	background-color: #000000;
+}
+.nsFloatingLabelBlack.nsFloatingLabelFocus.nsFloatingLabelTop .nsFloatingLabelLabel
+{
+	color: darkturquoise
+}
+
+.nsFloatingLabelBlack .nsFloatingLabelControl::placeholder
+{
+  	color: white;
+  	opacity: 1; /* Firefox */
+}
+/* Internet Explorer 10-11 */
+.nsFloatingLabelBlack .nsFloatingLabelControl:-ms-input-placeholder
+{ 
+ 	color: white;
+}
+/* Microsoft Edge */
+.nsFloatingLabelBlack .nsFloatingLabelControl::-ms-input-placeholder
+{ 
+ 	color: white;
+}

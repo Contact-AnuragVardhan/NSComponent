@@ -1,0 +1,991 @@
+var NSMultiSelectDropdown = (function()
+{
+	function NSMultiSelectDropdown(component,setting) 
+	{
+		this.__setting = setting;
+		this.__context = window;
+		this.__config = {};
+		this.__arrSelectedItems = [];
+		
+		this.__documentClickRef = null;
+		this.__documentKeydownRef = null;
+		
+		this.base.__setBaseComponent.call(this,component);
+	};
+	nsExtendPrototype(NSContainerBase,NSMultiSelectDropdown);
+	NSMultiSelectDropdown.prototype.constructor = NSMultiSelectDropdown;
+	
+	NSMultiSelectDropdown.prototype.initializeComponent = function() 
+	{
+		this.base.initializeComponent.call(this);
+		this.__fieldPrefix = this.getID() + "_NS_MultiSelect_Field";
+		this.__fieldChecked = this.__fieldPrefix + "_Checked";
+		this.__fieldDisabled = this.__fieldPrefix + "_Disabled";
+		this.__fieldIndex = this.__fieldPrefix + "_Index";
+		this.__setSetting();
+		this.__createComponent();
+	};
+	
+	NSMultiSelectDropdown.prototype.setComponentProperties = function() 
+	{
+		this.base.setComponentProperties.call(this);
+	};
+	
+	NSMultiSelectDropdown.prototype.propertyChange = function(attrName, oldVal, newVal, setProperty)
+	{
+		var attributeName = attrName.toLowerCase();
+		this.base.propertyChange.call(this,attrName, oldVal, newVal, setProperty);
+	};
+	
+	NSMultiSelectDropdown.prototype.removeComponent = function() 
+	{
+		if(this.__documentClickRef)
+		{
+			this.util.removeEvent(document,"click",this.__documentClickRef);
+			this.__documentClickRef = null;
+		}
+		if(this.__documentKeydownRef)
+		{
+			this.util.removeEvent(document,"keydown",this.__documentKeydownRef);
+			this.__documentKeydownRef = null;
+		}
+		this.base.removeComponent.call(this);
+	};
+	
+	NSMultiSelectDropdown.prototype.componentResized = function(event) 
+	{
+		this.base.componentResized.call(this,event);
+	};
+	
+	NSMultiSelectDropdown.prototype.dataSource = function(source) 
+	{
+		this.__config.dataSource = this.util.cloneObject(source,true);
+		this.__updateItems();
+		this.__applyDataSource(this.__config.dataSource);
+	};
+	
+	NSMultiSelectDropdown.prototype.getSelectedIndexes = function() 
+	{
+		var selected = this.__getSelectItems();
+		return selected.indexes;
+	};
+	
+	NSMultiSelectDropdown.prototype.getSelectedItems = function() 
+	{
+		var selected = this.__getSelectItems();
+		return selected.items;
+	};
+	
+	NSMultiSelectDropdown.prototype.setSelectUnselectItemsByValue = function(arrValues,isSelected) 
+	{
+		if(!this.util.isUndefinedOrNull(arrValues) && this.__config.dataSource && this.__config.dataSource.length > 0)
+		{
+			arrItems = this.util.isArray(arrValues) ? arrValues : [arrValues];
+			for(var count = 0;count < arrValues.length;count++)
+			{
+				var value = arrValues[count];
+				var tempItem = this.__getItemByValue(value);
+				this.__setSelectUnselectInItem(tempItem,isSelected);
+			}
+			this.__update();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.setSelectUnselectItems = function(arrItems,isSelected) 
+	{
+		if(!this.util.isUndefinedOrNull(arrItems) && this.__config.dataSource && this.__config.dataSource.length > 0)
+		{
+			arrItems = this.util.isArray(arrItems) ? arrItems : [arrItems];
+			for(var count = 0;count < arrItems.length;count++)
+			{
+				var item = arrItems[count];
+				var tempItem = this.util.isNumber(item) ? this.__getItemByIndex(item) : this.__getItemByValue(item[this.__config.valueField]);
+				this.__setSelectUnselectInItem(tempItem,isSelected);
+			}
+			this.__update();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__setSetting = function()
+	{
+		if(!this.__setting)
+		{
+			this.__setting = {};
+		}
+		var setting = this.__setting;
+		if(setting)
+		{
+			if(setting.hasOwnProperty("context"))
+			{
+				this.__context = setting["context"];
+			}
+			this.__config = {
+				dataSource: setting["dataSource"],
+				labelField: setting["labelField"] || "label",
+				valueField: setting["valueField"] || setting["labelField"] || "label",
+				enableVirtualScroll: Boolean.parse(setting["enableVirtualScroll"]),
+				itemHeight: setting["itemHeight"] || 30,
+				labelType: setting["labelType"] || NSMultiSelectDropdown.LABEL_TYPE_OF_TEXT,
+				itemAllowedToBeSelected: this.util.isUndefinedOrNull(setting["itemAllowedToBeSelected"]) ? -1 : parseInt(setting["itemAllowedToBeSelected"]),
+				//textSelectedCount will be shown only if more than countAfterShowText items where selected.
+				countAfterShowText: this.util.isUndefined(setting["countAfterShowText"]) ? 3 : parseInt(setting["countAfterShowText"]),
+				//Add "..." at end of text after selected options after countAfterShowText items is selected. Overrides textSelectedCount option.
+				truncateText: Boolean.parse(setting["truncateText"]),
+				listWidth: setting["listWidth"],
+				listHeight: setting["listHeight"],
+				filterSetting: setting["filterSetting"],
+				noDataMessage: setting["noDataMessage"] || "No matching records found",
+				placeHolder: setting["placeHolder"] || "",
+				searchPlaceHolder: setting["searchPlaceHolder"] || "Search",
+				selectedCallback: setting["selectedCallback"],
+				disabledCallback: setting["disabledCallback"],
+				textSelectAll: setting["textSelectAll"] || "[Select all]",
+				textAllSelected: setting["textAllSelected"] || "All Selected",
+				//'#' is replaced with the count of selected items, '%'is replaced with total items so '#' and '%' should be present
+				textSelectedCount: setting["textSelectedCount"] || "# of % selected",
+				setTitle: Boolean.parse(setting["setTitle"]),
+				displayDelimiter: setting["displayDelimiter"] || ', ',
+				enableDefaultOpen:Boolean.parse(setting["enableDefaultOpen"]),
+				labelRenderer:setting["labelRenderer"],
+				position:setting["position"] || "bottom",
+				showDropDownIcon:this.util.isUndefined(setting["showDropDownIcon"]) ? true : Boolean.parse(setting["showDropDownIcon"]),
+				searchInterval:setting["searchInterval"] || 500,
+			};
+			this.__config.dataSource = this.util.cloneObject(this.__config.dataSource,true);
+			this.__updateItems();
+			this.__config.filteredSource = this.__config.dataSource;
+			this.__updateTotalRecords();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__createComponent = function()
+	{
+		this.util.addStyleClass(this.__baseComponent,"nsMultiSelectDropdownContainer");
+		this.__divLabelContainer = this.util.createDiv(this.getID() + "LabelContainer","nsLabelContainer");
+		this.__spanLabel = this.util.createElement("span",this.getID() + "Label","nsLabel");
+		this.__divLabelContainer.appendChild(this.__spanLabel);
+		if(this.__config.showDropDownIcon)
+		{
+			this.__divArrow = this.util.createDiv(null,"nsLabelArrow");
+			this.__divLabelContainer.appendChild(this.__divArrow);
+		}
+		else
+		{
+			this.util.addStyleClass(this.__spanLabel,"nsLabelNoArrow");
+		}
+		this.__divDropdownContainer = this.util.createDiv(this.getID() + "DropdownContainer","nsDropdownContainer");
+		var style = (this.__config.position == "top") ? "nsDropdownContainerTop" :  "nsDropdownContainerBottom";
+		this.util.addStyleClass(this.__divDropdownContainer,style);
+		this.__divSearchContainer = this.util.createDiv(this.getID() + "SearchContainer","nsDropdownSearchContainer");
+		this.__txtSearch = this.util.createElement("input",this.getID() + "DropdownSearch","nsDropdownSearch");
+		//this.__txtSearch.setAttribute("type","search");
+		this.__txtSearch.setAttribute("placeholder",this.__config.searchPlaceHolder);
+		this.__divSearchContainer.appendChild(this.__txtSearch);
+		this.__divSearchIcon = this.util.createDiv(null,"nsDropdownSearchIcon");
+		this.__divSearchContainer.appendChild(this.__divSearchIcon);
+		var svgSearchIcon = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" \r\n" + 
+				"	 viewBox=\"0 0 56.966 56.966\" width=\"100%\" height=\"100%\" xml:space=\"preserve\">\r\n" + 
+				"<path d=\"M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23\r\n" + 
+				"	s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92\r\n" + 
+				"	c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17\r\n" + 
+				"	s-17-7.626-17-17S14.61,6,23.984,6z\"/>\r\n" + 
+				"</svg>";
+		if(window.btoa)
+		{
+			var svg64 = window.btoa(svgSearchIcon);
+			this.__divSearchIcon.style.backgroundImage = "url('data:image/svg+xml;base64," + svg64 + "')";
+		}
+		else
+		{
+			this.__divSearchIcon.innerHTML = svgSearchIcon;
+		}
+		this.__divDropdownContainer.appendChild(this.__divSearchContainer);
+		this.__listContainer = this.util.createElement("div",this.getID() + "ListContainer","nsListContainer");
+		this.__divDropdownContainer.appendChild(this.__listContainer);
+		this.addChild(this.__divLabelContainer);
+		this.addChild(this.__divDropdownContainer);
+		var dropDownContainerCSS = {};
+		if(this.__config["listWidth"])
+		{
+			dropDownContainerCSS.width = this.__config["listWidth"];
+		}
+		/*if(this.__config["listHeight"])
+		{
+			dropDownContainerCSS.maxHeight = this.__config["listHeight"];
+		}*/
+		if(this.__config["listHeight"])
+		{
+			this.__listContainer.style.maxHeight = this.__config["listHeight"];
+			if(this.__config.enableVirtualScroll)
+			{
+				this.__listContainer.style.height = this.__config["listHeight"];
+			}
+		}
+		this.util.css(this.__divDropdownContainer,dropDownContainerCSS);
+		if(this.__config.enableVirtualScroll)
+		{
+			this.__initVirtualScrolls();
+		}
+		this.__applyDataSource(this.__config.dataSource);
+		var dropDownClickRef = this.__dropDownShowHandler.bind(this);
+		this.util.addEvent(this.__divLabelContainer,"click",dropDownClickRef);
+		this.util.addEvent(this.__txtSearch,"input",this.__searchHandler.bind(this));
+		this.util.addEvent(this.__txtSearch,"click",this.__txtSearchFocusHandler.bind(this));
+		if(this.__config.enableDefaultOpen)
+		{
+			this.__dropDownShowHandler();
+		}
+		if(!this.__documentClickRef)
+		{
+			this.__documentClickRef = this.__documentClickHandler.bind(this);
+			this.util.addEvent(document,"click",this.__documentClickRef);
+		}
+		if(!this.__documentKeydownRef)
+		{
+			this.__documentKeydownRef = this.__documentKeydownHandler.bind(this);
+			this.util.addEvent(document,"keydown",this.__documentKeydownRef);
+		}
+		this.__changePropByLabelType();
+	};
+	
+	NSMultiSelectDropdown.prototype.__changePropByLabelType = function(source)
+	{
+		switch(this.__config.labelType)
+		{
+			case NSMultiSelectDropdown.LABEL_TYPE_HORIZONTAL_LIST:
+			{
+				//commenting below line as IE does not support unset value
+				/*this.__divLabelContainer.style.overflow = "unset";
+				this.__divLabelContainer.style.whiteSpace = "unset";
+				this.__spanLabel.style.overflow = "unset";
+				this.__spanLabel.style.whiteSpace = "unset";*/
+				
+				this.__divLabelContainer.style.overflow = "visible";
+				this.__divLabelContainer.style.whiteSpace = "normal";
+				this.__spanLabel.style.overflow = "visible";
+				this.__spanLabel.style.whiteSpace = "normal";
+				
+				//this.__spanLabel.style.position = "unset";
+				break;
+			}
+			case NSMultiSelectDropdown.LABEL_TYPE_VERTICAL_LIST:
+			{
+				break;
+			}
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__applyDataSource = function(source)
+	{
+		this.util.removeAllChildren(this.__listContainer);
+		this.__config.filteredSource = source;
+		this.__updateTotalRecords();
+		if(this.__config.enableVirtualScroll)
+		{
+			var length = (source && source.length > 0) ? source.length : 0;
+			this.__divScroller = this.__createScroller(this.__config.itemHeight * length);
+			this.__listContainer.appendChild(this.__divScroller);
+			this.__renderVirtualItems(0);
+			this.__update();
+		}
+		else
+		{
+			if(source && source.length > 0)
+			{
+				 for(var count = 0;count < source.length;count++)
+				 {
+					 var li = this.__createItem(source[count],count);
+					 this.__listContainer.appendChild(li);
+				 }
+				 this.__update();
+			}
+			else
+			{
+				 var li = this.__createNoItemFound();
+				 this.__listContainer.appendChild(li);
+			}
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__updateItems = function()
+	{
+		if(this.__config.enableVirtualScroll)
+		{
+			var source = this.__config.dataSource;
+			if(source && source.length > 0)
+			{
+				 for(var count = 0;count < source.length;count++)
+				 {
+					 source[count][this.__fieldIndex] = count;
+				 }
+			}
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__createNoItemFound = function()
+	{
+		var li = this.util.createElement("li",null,"nsListItem");
+		var label = this.util.createElement("label",null,"nsListItemLabelContainer");
+		li.appendChild(label);
+		var spanLabel = this.util.createElement("span",null,"nsListLabel");
+		spanLabel.innerHTML = this.__config.noDataMessage;
+		label.appendChild(spanLabel);
+		return li;
+	};
+	
+	NSMultiSelectDropdown.prototype.__initVirtualScrolls = function()
+	{
+		var div = this.util.createDiv();
+		div.style.height = this.__config["listHeight"];
+		document.body.appendChild(div);
+		var height = div.offsetHeight;
+		document.body.removeChild(div);
+		this.__screenItemsLen = Math.ceil(height / this.__config.itemHeight);
+		this.__cachedItemsLen = this.__screenItemsLen * 3;
+		this.__lastRepaintY = -1;
+		this.__maxBuffer = this.__screenItemsLen * this.__config.itemHeight;
+		this.__lastScrolled = 0;
+		this.__itemHeight = this.__config.itemHeight;
+		this.util.addStyleClass(this.__listContainer,"nsListContainerVirtual");
+		this.__listContainerScrollRef = this.__listContainerScrollHandler.bind(this);
+		this.util.addEvent(this.__listContainer,"scroll",this.__listContainerScrollRef);
+	};
+	
+	NSMultiSelectDropdown.prototype.__renderVirtualItems = function(from,source)
+	{
+		var arrLi = this.__listContainer.querySelectorAll("li");
+		for(var count = arrLi.length - 1;count > -1;count--)
+		{
+			arrLi[count].parentNode.removeChild(arrLi[count]);
+		}
+		source = source ? source : this.__config.filteredSource;
+		if(source)
+		{
+			var finalItem = from + this.__cachedItemsLen;
+			if (finalItem > this.__totalRecords)
+			{
+				 finalItem = this.__totalRecords;
+			}
+			var fragment = document.createDocumentFragment();
+			for(var count = from;count < finalItem;count++)
+			{
+				 var li = this.__createItem(source[count],count);
+				 fragment.appendChild(li);
+			}
+			this.__listContainer.appendChild(fragment);
+			//this.__update();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__createItem = function(item,index)
+	{
+		if(this.util.isUndefined(item[this.__fieldChecked]))
+		{
+			var isSelected = false;
+			if(this.__config.selectedCallback)
+			{
+				isSelected = this.__config.selectedCallback(item,index);
+			}
+			this.__setSelectUnselectInItem(item,isSelected);
+		}
+		if(this.util.isUndefined(item[this.__fieldDisabled]))
+		{
+			if(this.__config.disabledCallback)
+			{
+				item[this.__fieldDisabled] = this.__config.disabledCallback(item,index);
+			}
+			else
+			{
+				item[this.__fieldDisabled] = false;
+			}
+		}
+		if(this.util.isUndefined(item[this.__fieldIndex]))
+		{
+			item[this.__fieldIndex] = index;
+		}
+		var li = this.util.createElement("li",null,"nsListItem");
+		if(this.__config.enableVirtualScroll)
+		{
+			this.util.addStyleClass(li,"nsListItemVirtual");
+			li.style.top = (index * this.__config.itemHeight) + "px";
+		}
+		var label = this.util.createElement("label",null,"nsListItemLabelContainer");
+		if(item[this.__fieldDisabled])
+		{
+			this.util.addStyleClass(label,"nsListItemDisabled");
+		}
+		li.appendChild(label);
+		var checkBox = this.util.createElement("input",null,"nsListCheckbox");
+		checkBox.setAttribute("type","checkbox");
+		checkBox.setAttribute("value",item[this.__fieldIndex]);
+		if(item[this.__fieldChecked])
+		{
+			this.util.addStyleClass(li,"nsListItemSelected");
+		}
+		checkBox.checked = item[this.__fieldChecked];
+		label.appendChild(checkBox);
+		this.util.addEvent(li,"click",this.__itemClickHandler.bind(this,item,li));
+		this.util.addEvent(checkBox,"click",this.__checkBoxClickHandler.bind(this,item,checkBox,li));
+		var spanLabel = this.util.createElement("span",null,"nsListLabel");
+		spanLabel.innerHTML = this.__getText(item);
+		label.appendChild(spanLabel);
+		return li;
+	};
+	
+	NSMultiSelectDropdown.prototype.__listContainerScrollHandler = function(event)
+	{
+		if(!this.__interval || this.__interval == -1)
+		{
+			event = this.util.getEvent(event);
+			var target = this.util.getTarget(event);
+			var scrollTop = target.scrollTop;
+			if(this.__lastRepaintY == -1 || Math.abs(scrollTop - this.__lastRepaintY) > this.__maxBuffer)
+			{
+				var first = parseInt(scrollTop / this.__config.itemHeight) - this.__screenItemsLen;
+			    this.__renderVirtualItems(first < 0 ? 0 : first);
+			    this.__lastRepaintY = scrollTop;
+			}
+			this.__lastScrolled = Date.now();
+			event.preventDefault();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__documentClickHandler = function(event)
+	{
+		if(this.__isFocusOnControl())
+		{
+			this.__closeDropdown();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__documentKeydownHandler = function(event)
+	{
+		if(this.__isFocusOnControl())
+		{
+			event = this.util.getEvent(event);
+			var keyCode = this.util.getKeyUnicode(event);
+			if (keyCode == this.util.KEYCODE.ESC) 
+			{
+				this.__closeDropdown();
+			}
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__dropDownShowHandler = function(event)
+	{
+		this.util.toggleStyleClass(this.__divLabelContainer,"nsLabelContainerActive");
+		this.util.toggleStyleClass(this.__divDropdownContainer,"nsListShow");
+		this.util.hasStyleClass(this.__divDropdownContainer,"nsListShow")? this.__dispatchEvent(NSMultiSelectDropdown.DROPDOWN_OPEN): this.__dispatchEvent(NSMultiSelectDropdown.DROPDOWN_CLOSE, {selected: this.__getSelectItems()}, {selected: this.__getSelectItems()});
+		if(event)
+		{
+			event = this.util.getEvent();
+			event.stopPropagation();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__itemClickHandler = function(item,li,event)
+	{
+		if(event)
+		{
+			event = this.util.getEvent();
+			event.stopPropagation();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__checkBoxClickHandler = function(item,checkBox,li,event)
+	{
+		//below line is not working for some reason
+		//item[this.__fieldChecked] = checkBox.checked;
+		var index =  parseInt(checkBox.getAttribute("value"));
+		var tempItem = this.__getItemByIndex(index); 
+		if(tempItem)
+		{
+			this.__setSelectUnselectInItem(tempItem,checkBox.checked);
+			this.__update();
+			this.__dispatchEvent(NSMultiSelectDropdown.DROPDOWN_ITEM_CLICK,tempItem,{index:index,item:tempItem});
+		}
+		if(event)
+		{
+			event = this.util.getEvent();
+			event.stopPropagation();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__searchHandler = function(event)
+	{
+		event = this.util.getEvent(event);
+		clearTimeout(this.__interval);
+		this.__interval = -1;
+		var self = this;
+		this.__interval = setTimeout(function(){
+				self.__filterList.bind(self)();
+		}, this.__config.searchInterval);
+		
+	};
+	
+	NSMultiSelectDropdown.prototype.__filterList = function()
+	{
+		var filterSetting = this.__config.filterSetting;
+		var strData = this.__txtSearch.value;
+		this.__filter(strData,filterSetting,false,-1);
+		this.__interval = -1;
+	};
+	
+	NSMultiSelectDropdown.prototype.__txtSearchFocusHandler = function(event)
+	{
+		event = this.util.getEvent(event);
+		event.stopPropagation();
+	};
+	
+	NSMultiSelectDropdown.prototype.__createScroller = function(height)
+	{
+		var scroller = this.util.createDiv(null,"nsMultiSelectScroller");
+		scroller.style.height = height + "px";
+		return scroller;
+	};
+	
+	NSMultiSelectDropdown.prototype.__update = function()
+	{
+		var selected = this.__getSelectItems();
+		var length = selected.items.length;
+		var html = "";
+		var isPlaceHolder = true;
+		var setTitle = true;
+		var setHeight = true;
+		if(length == 0)
+		{
+			isPlaceHolder = true;
+		}
+		else
+		{
+			isPlaceHolder = false;
+			var labelRenderer = null;
+			if(this.__config.labelRenderer)
+			{
+				labelRenderer = this.__config.labelRenderer;
+			}
+			else if(this.__config.labelType == NSMultiSelectDropdown.LABEL_TYPE_OF_TEXT)
+			{
+				labelRenderer = this.__labelFunctionForOfText.bind(this);
+				setTitle = true;
+				setHeight = false;
+			}
+			else if(this.__config.labelType == NSMultiSelectDropdown.LABEL_TYPE_HORIZONTAL_LIST)
+			{
+				labelRenderer = this.__labelFunctionForHorizontalList.bind(this);
+				setTitle = true;
+				setHeight = true;
+			}
+			else if(this.__config.labelType == NSMultiSelectDropdown.LABEL_TYPE_VERTICAL_LIST)
+			{
+				labelRenderer = this.__labelFunctionForVerticalList.bind(this);
+				setTitle = true;
+				setHeight = true;
+			}
+			if(labelRenderer)
+			{
+				var html = labelRenderer(selected.items,selected.indexes,selected.texts,this.__config.labelField);
+				if(html)
+				{
+					var height = "";
+					if(this.util.isString(html))
+					{
+						this.__spanLabel.innerHTML = html;
+						var span = this.util.createElement("span");
+						span.innerHTML = html;
+						if(setHeight)
+						{
+							document.body.appendChild(span);
+							height = span.offsetHeight;
+							document.body.removeChild(span);
+						}
+					}
+					else
+					{
+						this.__spanLabel.innerHTML = "";
+						this.__spanLabel.appendChild(html);
+						if(setHeight)
+						{
+							height = html.offsetHeight;
+						}
+					}
+					if(setHeight)
+					{
+						this.__divLabelContainer.style.height = height + "px";
+					}
+				}
+				else
+				{
+					isPlaceHolder = true;
+				}
+			}
+			else
+			{
+				isPlaceHolder = true;
+			}
+		}
+		if(isPlaceHolder)
+		{
+			this.__divLabelContainer.style.height = "";
+			this.util.addStyleClass(this.__spanLabel,"nsLabelPlaceHolder");
+			this.__spanLabel.innerHTML = this.__config.placeHolder;
+		}
+		else
+		{
+			this.util.removeStyleClass(this.__spanLabel,"nsLabelPlaceHolder");
+		}
+		if (this.__config.setTitle && setTitle) 
+		{
+			this.__spanLabel.setAttribute("title",selected.texts.join(this.__config.displayDelimiter));
+        }
+		this.__updateCheckBoxes();
+	};
+	
+	NSMultiSelectDropdown.prototype.__labelFunctionForOfText = function(items,indexes,texts,labelField)
+	{
+		var length = items.length;
+		var sourceLength = (this.__config.dataSource && this.__config.dataSource.length) ? this.__config.dataSource.length : 0;
+		var html = "";
+		if(length == sourceLength)
+		{
+			html = this.__config.textAllSelected;
+		}
+		else if(this.__config.truncateText && length > this.__config.countAfterShowText) 
+		{
+			html = texts.slice(0,this.__config.countAfterShowText) + "...";
+        }
+		else if(length > this.__config.countAfterShowText) 
+		{
+			html = this.__config.textSelectedCount.replace("#",length).replace("%", sourceLength);
+        } 
+		else 
+		{
+			html = texts.join(this.__config.displayDelimiter);
+        }
+		return html;
+	};
+	
+	NSMultiSelectDropdown.prototype.__labelFunctionForHorizontalList = function(items,indexes,texts,labelField)
+	{
+		var length = items.length;
+		var divContainer = this.util.createDiv(null,"nsHorizontalListContainer");
+		var tag = null;
+		for(var count = 0;count < texts.length;count++)
+		{
+			tag = this.__createHorizontalListItem(texts[count],items[count],indexes[count]);
+			divContainer.appendChild(tag);
+		}
+		return divContainer;
+	};
+	
+	NSMultiSelectDropdown.prototype.__createHorizontalListItem = function(text,item,index) 
+	{
+		var tag = this.util.createDiv(null,"nsHorizontalListItemTag");
+	    var content = this.util.createDiv(null,"nsHorizontalListItemText");
+	    content.textContent = text;
+	    tag.appendChild(content);
+	    var btnRemove = this.util.createDiv(null,"nsHorizontalListItemClose");
+	    this.util.addEvent(btnRemove,"click",this.__removeHorizontalListItem.bind(this,tag,item,index));
+	    tag.appendChild(btnRemove);
+	    return tag;
+	};
+	
+	NSMultiSelectDropdown.prototype.__removeHorizontalListItem = function(tag,item,index,event) 
+	{
+		event = this.util.getEvent(event);
+		if(event)
+		{
+			event.stopImmediatePropagation();
+		}
+		this.setSelectUnselectItems(item,false);
+	};
+	
+	NSMultiSelectDropdown.prototype.__labelFunctionForVerticalList = function(items,indexes,texts,labelField)
+	{
+		var length = items.length;
+		var ul = this.util.createElement("ul",null,"nsVerticalListContainer");
+		var tag = null;
+		for(var count = 0;count < texts.length;count++)
+		{
+			tag = this.__createVerticalListItem(texts[count],items[count],indexes[count]);
+			ul.appendChild(tag);
+		}
+		return ul;
+	};
+	
+	NSMultiSelectDropdown.prototype.__createVerticalListItem = function(text,item,index) 
+	{
+		var li = this.util.createElement("li",null,"nsVerticalListItemTag");
+		var div = this.util.createDiv(null,"nsVerticalListItemText");
+        div.appendChild(document.createTextNode(text));
+        li.appendChild(div);
+        var btnRemove = this.util.createDiv(null,"nsVerticalListItemClose");
+		this.util.addEvent(btnRemove,"click",this.__removeVerticalListItem.bind(this,li,item,index));
+		li.appendChild(btnRemove);
+		return li;
+	};
+	
+	NSMultiSelectDropdown.prototype.__removeVerticalListItem = function(tag,item,index,event) 
+	{
+		event = this.util.getEvent(event);
+		if(event)
+		{
+			event.stopImmediatePropagation();
+		}
+		this.setSelectUnselectItems(item,false);
+	};
+	
+	NSMultiSelectDropdown.prototype.__updateCheckBoxes = function()
+	{
+		var arrCheckBoxes = this.__listContainer.querySelectorAll("input.nsListCheckbox[type=checkbox]");
+		if(arrCheckBoxes && arrCheckBoxes.length > 0)
+		{
+			for(var count = 0;count < arrCheckBoxes.length;count++)
+			{
+				var checkBox = arrCheckBoxes[count];
+				var index =  parseInt(checkBox.getAttribute("value"));
+				var item = this.__getItemByIndex(index);
+				if(item)
+				{
+					checkBox.checked = item[this.__fieldChecked];
+					var li = this.util.findParent(checkBox,"LI");
+					if(li)
+					{
+						item[this.__fieldChecked] ? this.util.addStyleClass(li,"nsListItemSelected") : this.util.removeStyleClass(li,"nsListItemSelected");
+					}
+				}
+			}
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__getSelectItems = function()
+	{
+		var retValue = {texts:[],indexes:[],items:[]};
+		/*if(this.__config.dataSource && this.__config.dataSource.length > 0)
+		{
+			for(var count = 0;count < this.__config.dataSource.length;count++)
+			{
+				var item = this.__config.dataSource[count];
+				if(item[this.__fieldChecked])
+				{
+					retValue.texts.push(this.__getText(item));
+					retValue.indexes.push(count);
+					retValue.items.push(item);
+				}
+			}
+		}*/
+		if(this.__config.dataSource && this.__config.dataSource.length && this.__arrSelectedItems && this.__arrSelectedItems.length)
+		{
+			for(var count = 0;count < this.__arrSelectedItems.length;count++)
+			{
+				var item = this.__arrSelectedItems[count];
+				retValue.texts.push(this.__getText(item));
+				retValue.indexes.push(count);
+				retValue.items.push(item);
+			}
+		}
+		return retValue;
+	};
+	
+	NSMultiSelectDropdown.prototype.__getText = function(item)
+	{
+		return (item ? item[this.__config.labelField] : "");
+	};
+	
+	NSMultiSelectDropdown.prototype.__closeDropdown = function()
+	{
+		this.util.removeStyleClass(this.__divLabelContainer,"nsLabelContainerActive");
+		this.util.removeStyleClass(this.__divDropdownContainer,"nsListShow");
+		this.__txtSearch.value = "";
+		this.__filterList();
+		this.__dispatchEvent(NSMultiSelectDropdown.DROPDOWN_CLOSE, {selected: this.__getSelectItems()}, {selected: this.__getSelectItems()});
+	};
+	
+	NSMultiSelectDropdown.prototype.__isFocusOnControl = function()
+	{
+		/*if(this.hasFocus())
+		{
+			return true;
+		}
+		return false;*/
+		/*var focusedElement = document.activeElement;
+		if(this.__baseComponent.contains(focusedElement)) 
+		{
+			return true;
+		}
+		return false;*/
+		return this.util.hasStyleClass(this.__divDropdownContainer,"nsListShow");
+	};
+	
+	NSMultiSelectDropdown.prototype.__updateTotalRecords = function(totalCount)
+	{
+		if(this.util.isUndefinedOrNull(totalCount) && this.__config.filteredSource)
+		{
+			totalCount = this.__config.filteredSource.length; 
+		}
+		this.__totalRecords = totalCount;
+	};
+	
+	NSMultiSelectDropdown.prototype.__getIndexByItem = function(itemToFind,source)
+	{
+		if(!source)
+		{
+			source = this.__config.dataSource;
+		}
+		if(itemToFind && source && source.length > 0)
+		{
+			for(var count = 0;count < source.length;count++)
+			{
+				var item = source[count];
+				if(item && item[this.__fieldIndex] === itemToFind[this.__fieldIndex])
+				{
+					return item[this.__fieldIndex];
+				}
+			}
+		}
+		return -1;
+	};
+	
+	NSMultiSelectDropdown.prototype.__getItemByIndex = function(indexToFind,source)
+	{
+		if(!source)
+		{
+			source = this.__config.dataSource;
+		}
+		if(source && source.length > 0)
+		{
+			for(var count = 0;count < source.length;count++)
+			{
+				var item = source[count];
+				if(item && item[this.__fieldIndex] === indexToFind)
+				{
+					return item;
+				}
+			}
+		}
+		return null;
+	};
+	
+	NSMultiSelectDropdown.prototype.__getItemByValue = function(value,source)
+	{
+		if(!source)
+		{
+			source = this.__config.dataSource;
+		}
+		if(value && source && source.length > 0)
+		{
+			for(var count = 0;count < source.length;count++)
+			{
+				var item = source[count];
+				if(item && item[this.__config.valueField] === value)
+				{
+					return item;
+				}
+			}
+		}
+		return null;
+	};
+	
+	NSMultiSelectDropdown.prototype.__filter = function(strData,filterSetting,enableHighlighting,recordLimit)
+	{
+		if(strData)
+		{
+			filterSetting = filterSetting ? filterSetting : {};
+			var config = {
+					caseSensitive: this.util.isUndefinedOrNull(filterSetting["caseSensitive"]) ? false : Boolean.parse(filterSetting["caseSensitive"]),
+					multiline: this.util.isUndefinedOrNull(filterSetting["multiline"]) ? false : Boolean.parse(filterSetting["multiline"]),
+					matchType: filterSetting["matchType"] || new NSFilter().CONTAINS
+			};
+			var filter = {};
+			var setting = {};
+			var field = this.__config.labelField;
+			filter[field] = strData;
+			setting[field] = {caseSensitive:config["caseSensitive"],multiline:config["multiline"],matchType:config["matchType"]};
+			this.__handleFiltering(filter,setting,enableHighlighting,recordLimit);
+		}
+		else
+		{
+			this.__resetFiltering();
+		}
+	};
+	
+	NSMultiSelectDropdown.prototype.__handleFiltering = function(filter,setting,enableHighlighting,recordLimit)
+	{
+		var source = this.__config.dataSource;
+		var nsFilter = new NSFilter(source,filter,setting,recordLimit,false,null);
+		source = nsFilter.execute();
+		this.__applyDataSource(source);
+	};
+	
+	NSMultiSelectDropdown.prototype.__resetFiltering = function()
+	{
+		this.__applyDataSource(this.__config.dataSource);
+	};
+	
+	NSMultiSelectDropdown.prototype.__setSelectUnselectInItem = function(item,isSelected)
+	{
+		item[this.__fieldChecked] = isSelected;
+		if(isSelected)
+		{
+			if(!this.__isItemSelected(item)) {
+				this.__arrSelectedItems.push(item);
+			}
+		}
+		else
+		{
+			var indexFound = -1;
+			for(var count = 0;count < this.__arrSelectedItems.length;count++)
+			{
+				if(this.__arrSelectedItems[count][this.__fieldIndex] == item[this.__fieldIndex])
+				{
+					indexFound = count;
+					break;
+				}
+			}
+			if(indexFound > -1)
+			{
+				this.__arrSelectedItems.splice(indexFound,1);
+			}
+		}
+		if(this.__config.itemAllowedToBeSelected > -1 && this.__config.itemAllowedToBeSelected <  this.__arrSelectedItems.length)
+		{
+			var itemDel = this.__arrSelectedItems[0];
+			this.setSelectUnselectItems(itemDel,false);
+		}
+		//console.log(this.__arrSelectedItems);
+	};
+	
+	NSMultiSelectDropdown.prototype.__isItemSelected = function(item)
+	{
+		for(var count = 0;count < this.__arrSelectedItems.length;count++)
+		{
+			if(this.__arrSelectedItems[count][this.__fieldIndex] == item[this.__fieldIndex])
+			{
+				return true;
+			}
+		}
+		return false;
+	};
+	
+	NSMultiSelectDropdown.prototype.__dispatchEvent = function(eventType,data,param,bubbles,cancelable)
+	{
+		/*if(this.__eventDispatcher)
+		{
+			this.__eventDispatcher(eventType,data,param,bubbles,cancelable);
+		}
+		else
+		{*/
+			this.util.dispatchEvent(this.__baseComponent,eventType,data,param,bubbles,cancelable);
+		//}
+	};
+	
+	NSMultiSelectDropdown.DROPDOWN_OPEN = "open";
+	NSMultiSelectDropdown.DROPDOWN_CLOSE = "close";
+	NSMultiSelectDropdown.DROPDOWN_ITEM_CLICK = "itemClick";
+	NSMultiSelectDropdown.LABEL_TYPE_OF_TEXT = "labelTypeOfText";
+	NSMultiSelectDropdown.LABEL_TYPE_HORIZONTAL_LIST = "labelTypeHorizontalList";
+	NSMultiSelectDropdown.LABEL_TYPE_VERTICAL_LIST = "labelTypeVerticalList";
+	
+	return NSMultiSelectDropdown;
+})();
+nsModuleExport(__nsGlobal,"NSMultiSelectDropdown",NSMultiSelectDropdown);

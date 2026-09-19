@@ -1,0 +1,14 @@
+{
+	"name": "nsprogressbar",
+	"version": "0.1.2",
+	"title": "nsProgressBar",
+	"description": "NSProgressBar Class",
+	"main": "nsProgressBar.min.js",
+	"dependencies": {
+		"nscontainerbase": "0.1.2",
+		"nscomputil": "0.1.2",
+		"nsdateutil": "0.1.2",
+		"nspluggins": "0.1.2",
+		"nssvg": "0.1.2"
+	}
+}

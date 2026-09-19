@@ -1,0 +1,187 @@
+.nsTabNavigator
+{
+	margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+.nsTabNavigatorParentParent
+{
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    padding: 0px;
+    display: flex;
+}
+.nsTabNavigator .nsTabContainer
+{
+    display: inline-block;
+    margin: -2px;
+    list-style: none;
+    position: relative;
+    cursor: pointer;
+}
+.nsTabNavigator .nsTabContainer.nsTabContainerHidden
+{
+	display: none;
+}
+.nsTabNavigator .nsTabContainer.nsTabContainerDisabled
+{
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.nsTabNavigator .nsTab
+{
+    display: inline-block;
+    padding: 4px 12px;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.nsTabNavigatorLeft
+{
+}
+.nsTabNavigatorParent
+{
+	text-align: left;
+  	width: 100%;
+	overflow: hidden;
+}
+.nsTabNavigatorRight
+{
+}
+
+.nsTabNav 
+{
+	height:100%;
+	width:35px;
+	cursor: pointer;
+	text-align: center;
+}
+.nsTabLeftArrow
+{
+}
+.nsTabRightArrow
+{
+}
+.nsTabNav.nsTabNavDisabled
+{
+	opacity: .5;
+    pointer-events: none;
+    touch-action: none;
+    background: inherit;
+}
+
+.nsTabNavigator .nsTabContainer.nsTabWithClose
+{
+	
+}
+.nsTabNavigator .nsTabContainer .nsTabClose
+{
+	display: inline-block;
+  	float: right;
+  	margin: 0px;
+  	margin-right: 3px;
+    cursor: pointer;
+  	text-align: center;
+}
+.nsTabContentParent
+{
+    text-align: left;
+    padding: 5px 15px;
+}
+.nsTabContent
+{
+/* 	padding: 15px; */
+    display: none;
+    text-align: left;
+}
+.nsTabContent.nsTabContentActive
+{
+	display: block;
+}
+.nsTabContent.nsTabContentHidden
+{
+	display: none;
+}
+.nsTabIndicator
+{
+	position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100px;
+    background-color: transparent;
+    transform-origin: 0 0;
+    transition: transform .2s ease-in-out, background-color .2s ease-in-out, -webkit-transform .2s ease-in-out;
+}
+
+.nsTabNavigatorParentParentWhite
+{
+	background-color: white;
+	border-bottom: 1px solid #eee;
+}
+
+.nsTabNavigatorWhite .nsTabContainer
+{
+	border: 1px solid #c8c8c8;
+    background-color: #f4f4f4;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+.nsTabNavigatorWhite .nsTabContainerActive
+{
+    background-color: #007ad9;
+    border: 1px solid #007ad9;
+}
+.nsTabNavigatorWhite .nsTab
+{
+    font-size: 14px;
+    font-weight: 700;
+    color: #333333;
+    
+}
+.nsTabNavigatorWhite .nsTabContainerActive .nsTab
+{
+	color: #ffffff;
+	text-shadow: none;
+}
+.nsTabNavigatorWhite .nsTabContainer .nsTabClose
+{
+	font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+}
+.nsTabNavigatorWhite .nsTabContainerActive .nsTabClose
+{
+	color: #ffffff;
+}
+.nsTabNavigatorWhite .nsTabContainer .nsTabClose:focus,.nsTabNavigatorWhite .nsTabContainer .nsTabClose:hover
+{
+	color: #000000;
+	text-decoration: none;
+    cursor: pointer;
+    opacity: 0.4;
+}
+.nsTabContentParentWhite
+{
+	background-color: white;
+    border: 1px solid #eee;
+    border-top: 0px;
+}
+.nsTabContentWhite
+{
+    background-color: white;
+}
+.nsTabNavWhite
+{
+   border: 1px solid #d9d9d9;
+   border-bottom: 0;
+   border-radius: 4px 4px 0 0;
+   background: #f9f9f9;
+}
+.nsTabIndicatorWhite
+{
+	background: #e3165b;
+}

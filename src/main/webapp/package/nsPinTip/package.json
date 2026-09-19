@@ -1,0 +1,7 @@
+{
+	"name": "nspintip",
+	"version": "0.4.2",
+	"title": "nsPinTip",
+	"description": "NSPinTip Class",
+	"main": "nsPinTip.min.js"
+}

@@ -1,0 +1,13 @@
+{
+	"name": "nsdatepicker",
+	"version": "0.4.2",
+	"title": "nsDatePicker",
+	"description": "NSDatePicker Class",
+	"main": "nsDatePicker.min.js",
+	"dependencies": {
+		"nscontainerbase": "0.4.2",
+		"nscomputil": "0.4.2",
+		"nsdateutil": "0.4.2",
+		"nssvg": "0.4.2"
+	}
+}

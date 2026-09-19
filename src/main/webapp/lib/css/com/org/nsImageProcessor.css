@@ -1,0 +1,326 @@
+.nsImageContainer {
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    /* for zooming*/
+    overflow: hidden;
+}
+
+.nsImageResizeEnabled img {
+    display: block
+}
+
+.nsImageResizeEnabled:hover img,
+.nsImageResizeEnabled:active img {
+    outline: 2px dashed rgba(222,60,80,.9);
+}
+.nsImageResizeHandleNE,
+.nsImageResizeHandleSE,
+.nsImageResizeHandleNW,
+.nsImageResizeHandleSW {
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: rgba(222,60,80,.9);
+    z-index: 999;
+}
+
+.nsImageResizeHandleNW {
+    top: -5px;
+    left: -5px;
+    cursor: nw-resize;
+}
+
+.nsImageResizeHandleSW {
+    bottom: -5px;
+    left: -5px;
+    cursor: sw-resize;
+}
+
+.nsImageResizeHandleNE {
+    top: -5px;
+    right: -5px;
+    cursor: ne-resize;
+}
+
+.nsImageResizeHandleSE {
+    bottom: -5px;
+    right: -5px;
+    cursor: se-resize;
+}
+
+.nsImageMoveContainer {
+    cursor: move;
+}
+
+.nsImageTransition {
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.nsImageHidden{
+	display: none;
+}
+
+.nsImageToolbar {
+    background-color: rgba(0,0,0,.5);
+    color: #fff;
+    height: 32px;
+    position: absolute;
+    width: 360px;
+    z-index: 1000;
+}
+
+.nsImageToolbar .nsImageToolbarButton {
+    background-color: transparent;
+    border-width: 0;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 14px;
+    height: 32px;
+    text-align: center;
+    width: 32px;
+}
+
+.nsImageToolbar .nsImageToolbarButton:hover {
+    background-color: #0074d9;
+    color: #fff;
+}
+
+.nsImageFullscreen:-webkit-full-screen,
+.nsImageFullscreen:-webkit-full-screen,
+.nsImageFullscreen:-ms-fullscreen{
+      width: auto !important;
+      height: auto !important;
+      margin:auto !important;
+}
+
+.nsImageCropperOuterContainer
+{
+	position: relative;
+    display: inline-block;
+    margin: 0 auto;
+	
+}
+
+.nsImageCropperOuterContainer .nsImageCropperContainer
+{
+	position: absolute;
+	z-index: 600;
+}
+
+.nsImageCropperOuterContainer .nsImageCropperImageContainer
+{
+	position: absolute;
+	overflow: hidden;
+	z-index: 300;
+	height:100%;
+	width:100%;
+}
+
+.nsImageCropperOuterContainer .nsImageCropperDragContainer
+{
+	z-index: 310;
+	height:100%;
+	width:100%;
+}
+
+.nsImageCropperOuterContainer .nsImageCropperTracker
+{
+	position: absolute;
+	z-index: 280;
+	height:100%;
+	width:100%;
+}
+
+.nsImageCropperOuterContainer .nsImageCropperMoveTracker
+{
+	z-index: 350;
+	cursor: move;
+}
+
+.nsImageCropperOuterContainer .nsImageCloned
+{
+	border: none;
+    visibility: visible;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.nsImageCropperOuterContainer .nsImageDragBar
+{
+	position: absolute;
+}
+
+.nsImageCropperOuterContainer .nsImageDragBar.nsImageDragBar-n
+{
+	height: 7px;
+  	width: 100%;
+  	margin-top: -4px;
+  	cursor: n-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageDragBar.nsImageDragBar-s
+{
+	height: 7px;
+  	width: 100%;
+  	bottom: 0;
+  	margin-bottom: -4px;
+  	cursor: s-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageDragBar.nsImageDragBar-e
+{
+	height: 100%;
+  	width: 7px;
+  	margin-right: -4px;
+  	right: 0;
+  	cursor: e-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageDragBar.nsImageDragBar-w
+{
+	height: 100%;
+  	width: 7px;
+  	margin-left: -4px;
+  	cursor: w-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle
+{
+	position: absolute;
+	background-color: #333333;
+  	border: 1px #eeeeee solid;
+  	width: 7px;
+  	height: 7px;
+  	font-size: 1px;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle.nsImageHandle-n
+{
+	left: 50%;
+  	margin-left: -4px;
+  	margin-top: -4px;
+  	top: 0;
+  	cursor: n-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle.nsImageHandle-s
+{
+	bottom: 0;
+  	left: 50%;
+  	margin-bottom: -4px;
+  	margin-left: -4px;
+  	cursor: s-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle.nsImageHandle-e
+{
+	margin-right: -4px;
+  	margin-top: -4px;
+  	right: 0;
+  	top: 50%;
+  	cursor: e-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle.nsImageHandle-w
+{
+	left: 0;
+  	margin-left: -4px;
+  	margin-top: -4px;
+  	top: 50%;
+  	cursor: w-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle.nsImageHandle-nw
+{
+	left: 0;
+  	margin-left: -4px;
+  	margin-top: -4px;
+  	top: 0;
+  	cursor: nw-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle.nsImageHandle-ne
+{
+	margin-right: -4px;
+  	margin-top: -4px;
+  	right: 0;
+  	top: 0;
+  	cursor: ne-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle.nsImageHandle-sw
+{
+	bottom: 0;
+  	left: 0;
+  	margin-bottom: -4px;
+  	margin-left: -4px;
+  	cursor: sw-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageHandle.nsImageHandle-se
+{
+	bottom: 0;
+  	margin-bottom: -4px;
+  	margin-right: -4px;
+  	right: 0;
+  	cursor: se-resize;
+}
+
+.nsImageCropperOuterContainer .nsImageBorder
+{
+	position: absolute;
+	font-size: 0;
+}
+
+.nsImageCropperOuterContainer .nsImageBorder.nsImageBorderVertical
+{
+	width: 1px !important;
+	height: 100%;
+}
+
+.nsImageCropperOuterContainer .nsImageBorder.nsImageBorderHorizontal
+{
+	height: 1px !important;
+	width: 100%;
+}
+.nsImageCropperOuterContainer .nsImageBorder.nsImageBorderHorizontal.nsImageBorderHorizontalBottom
+{
+	bottom: 0;
+}
+.nsImageCropperOuterContainer .nsImageBorder.nsImageBorderVertical.nsImageBorderVerticalRight
+{
+	right: 0;
+}
+
+.nsImageMagnifierOuterContainer
+{
+	position: relative;
+    margin: 0 auto;
+}
+
+.nsImageMagnifierResult 
+{
+  	border: 1px solid #d4d4d4;
+}
+
+.nsImageMagnifierLens 
+{
+  	position: absolute;
+  	width: 40px;
+  	height: 40px;
+  	cursor: crosshair;
+    border: 1px solid rgb(0, 0, 0);
+    background-repeat: no-repeat;
+    overflow: hidden;
+    z-index: 999;
+    opacity: 1;
+    zoom: 1;
+}

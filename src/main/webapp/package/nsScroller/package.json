@@ -1,0 +1,10 @@
+{
+	"name": "nsscroller",
+	"version": "0.4.2",
+	"title": "nsScroller",
+	"description": "NSScroller Class",
+	"main": "nsScroller.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"name": "nscontainerbase",
+	"version": "0.4.2",
+	"title": "nsContainerBase",
+	"description": "NSComponent Base Class",
+	"main": "nsContainerBase.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

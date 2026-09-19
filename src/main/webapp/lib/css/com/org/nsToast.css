@@ -1,0 +1,133 @@
+.nsToastContainer 
+{
+	display: block;
+	position: fixed;
+	width: 250px;
+	pointer-events: none !important;
+	margin: 0;
+	padding: 0;
+	letter-spacing: normal;
+	z-index: 9000 !important;
+}
+
+.nsToastContainer.nsToast-bottom-left 
+{
+	bottom: 20px;
+	left: 20px;
+}
+
+.nsToastContainer.nsToast-bottom-right 
+{
+	bottom: 20px;
+	right: 40px;
+}
+
+.nsToastContainer.nsToast-top-left 
+{
+	top: 20px;
+	left: 20px;
+}
+
+.nsToastContainer.nsToast-top-right 
+{
+	top: 20px;
+	right: 40px;
+}
+
+.nsToastContainer .nsToast 
+{
+	display: block;
+	width: 100%;
+	padding: 10px;
+	margin: 0px 0px 5px;
+	border-radius: 4px;
+	line-height: 17px;
+	position: relative;
+	pointer-events: all !important;
+	
+}
+
+.nsToastContainer .nsToast.nsToastHidden
+{
+	display: none;
+}
+
+.nsToastContainer .nsToast .nsToastHeader 
+{
+	font-family: arial, sans-serif;
+	font-size: 14px;
+	margin: 0px 0px 7px;
+	background: none;
+	color: inherit;
+	line-height: inherit;
+	letter-spacing: normal;
+}
+
+.nsToastContainer .nsToast .nsToastBody 
+{
+	margin: 0px 0px 0px 15px;
+	background: none;
+	padding: 0px;
+}
+
+.nsToastContainer .nsToast .nsToastBody .nsToastBodyElement
+{
+	list-style-type: none !important;
+	line-height: 17px;
+	background: none;
+	margin: 0;
+	padding: 0;
+	letter-spacing: normal;
+}
+
+.nsToastContainer .nsToast .nsToastClose
+{
+	position: absolute;
+	top: 3px;
+	right: 7px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.nsToastContainer .nsToastHasIcon 
+{
+	padding: 10px 10px 10px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px;
+}
+
+.nsToastContainerWhite .nsToast 
+{
+	background-color: #444444;
+	color: white;
+	font-size: 12px;
+	font-family: arial, sans-serif;
+}
+
+.nsToastContainerWhite .nsToastIconSuccess 
+{
+	background-color: #b7d8b7;
+	color: #212121;
+	border-color: #d6e9c6;
+}
+
+.nsToastContainerWhite .nsToastIconInfo 
+{
+	background-color: #7fbcec;
+	color: #212121;
+	border-color: #bce8f1;
+}
+
+.nsToastContainerWhite .nsToastIconWarning 
+{
+	background-color: #ffe399;
+	color: #212121;
+	border-color: #faebcc;
+}
+
+.nsToastContainerWhite .nsToastIconError 
+{
+	background-color: #f8b7bd;
+	color: #212121;
+	border-color: #ebccd1;
+}

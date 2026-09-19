@@ -1,0 +1,10 @@
+{
+	"name": "nsrouter",
+	"version": "0.4.2",
+	"title": "nsRouter",
+	"description": "NSRouter Class",
+	"main": "nsRouter.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

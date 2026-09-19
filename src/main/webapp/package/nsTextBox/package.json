@@ -1,0 +1,12 @@
+{
+	"name": "nstextbox",
+	"version": "0.4.2",
+	"title": "nsTextBox",
+	"description": "NSTextBox Class",
+	"main": "nsTextBox.min.js",
+	"dependencies": {
+		"nscontainerbase": "0.4.2",
+		"nsgrid": "0.4.2",
+		"nscomputil": "0.4.2"
+	}
+}

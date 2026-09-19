@@ -1,0 +1,10 @@
+{
+	"name": "nsnumerictextbox",
+	"version": "0.4.2",
+	"title": "nsNumericTextBox",
+	"description": "NSNumericTextBox Class",
+	"main": "nsNumericTextBox.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

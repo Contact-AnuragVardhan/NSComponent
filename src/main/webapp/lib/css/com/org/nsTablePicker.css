@@ -1,0 +1,141 @@
+.nsTablePicker
+{
+	
+}
+
+.nsTablePicker .nsTablePickerTblCon
+{
+	min-width: 100px;
+    min-height: 100px;
+    display: table;
+    box-sizing: border-box;
+    border-collapse: collapse;
+}
+
+.nsTablePicker .nsTablePickerTblCon .nsTablePickerTbl
+{
+	
+}
+
+.nsTablePicker .nsTableRowContainer
+{
+	width: 100%;
+/*     min-height: 25px; */
+    display: table-row;
+    vertical-align: top;
+    box-sizing: inherit;
+}
+
+.nsTablePicker .nsTableRowContainer .nsTableRow
+{
+	width: auto;
+    height: auto;
+    box-sizing: border-box;
+    display: flex;
+}
+
+.nsTablePicker .nsTableCellContainer
+{
+/* 	width: 25px; */
+/*     height: 25px; */
+    box-sizing: inherit;
+    display: table-cell;
+    vertical-align: top;
+    word-break: break-all;
+    cursor: pointer;
+    padding: 1px;
+}
+
+.nsTablePicker .nsTableCellContainer .nsTableCell
+{
+	width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.nsTablePicker .nsTablePickerLblCon
+{
+	width:100%;
+	height:23px;
+}
+
+.nsTablePicker .nsTablePickerLblCon .nsTablePickerLbl
+{
+	height: 100%;
+	text-align: center;
+	white-space: nowrap;
+    cursor: auto;
+    float: none;
+    font-family: Helvetica,Arial,Tahoma,Verdana,Sans-Serif; 
+    font-size: 12px; 
+    font-style: normal; 
+    margin-top: 5px;
+}
+
+.nsTablePickerWhite
+{
+	border: 1px solid rgb(217, 217, 217);
+    border-radius: 5px;
+    background: rgb(255, 255, 255);
+}
+
+.nsTablePickerWhite .nsTablePickerTblCon
+{
+	background-color: rgb(255, 255, 255);
+    padding: 5px 5px 0;
+    display: inline-block;
+}
+
+.nsTablePickerWhite .nsTableCellContainer .nsTableCell
+{
+	border: 1px solid rgb(204, 204, 204);
+}
+
+.nsTablePickerWhite .nsTableCellContainer .nsTableCellSelected
+{
+	background-color: rgb(221, 238, 255);
+}
+
+.nsTablePickerWhite .nsTableCellContainer .nsTableCellActive
+{
+	background-color: rgb(221, 238, 255);
+}
+
+.nsTablePickerWhite .nsTablePickerLblCon .nsTablePickerLbl
+{
+	color: #000000;
+}
+
+.nsTablePickerBlack
+{
+	border: 1px solid rgb(217, 217, 217);
+    border-radius: 5px;
+    background-color: rgb(56, 62, 76);
+}
+
+.nsTablePickerBlack .nsTablePickerTblCon
+{
+	background-color: rgb(56, 62, 76);
+    padding: 5px;
+    display: inline-block;
+}
+
+.nsTablePickerBlack .nsTableCellContainer .nsTableCell
+{
+	border: 1px solid rgb(170, 170, 170);
+}
+
+.nsTablePickerBlack .nsTableCellContainer .nsTableCellSelected
+{
+	background-color: rgb(170, 170, 170);
+}
+
+.nsTablePickerBlack .nsTableCellContainer .nsTableCellActive
+{
+	background-color: rgb(238, 238, 238);
+}
+
+.nsTablePickerBlack .nsTablePickerLblCon .nsTablePickerLbl
+{
+	color: #FFFFFF;
+}

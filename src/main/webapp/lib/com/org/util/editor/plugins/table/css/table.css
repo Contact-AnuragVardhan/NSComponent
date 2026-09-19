@@ -1,0 +1,40 @@
+.nsEditor .nsEditorTextArea table,.nsEditorBody table
+{
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    width:100%;
+}
+
+.nsEditor .nsEditorTextArea table tr,.nsEditorBody table tr 
+{
+    user-select: none;
+}
+
+.nsEditor .nsEditorTextArea table tr td,
+.nsEditor .nsEditorTextArea table tr th,
+.nsEditorBody table tr td,
+.nsEditorBody table tr th
+{
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    user-select: text;
+    padding: 5px 10px;
+}
+
+.nsEditor .nsEditorTextArea table .nsEditorHiddenRow,
+.nsEditorBody table .nsEditorHiddenRow
+{
+	height: 0px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.nsEditor .nsEditorTextArea table .nsEditorHiddenRow td,
+.nsEditorBody table .nsEditorHiddenRow td
+{
+	height: 0;
+    padding: 0;
+    border-top: 0;
+    overflow: hidden;
+    line-height: 0;
+}

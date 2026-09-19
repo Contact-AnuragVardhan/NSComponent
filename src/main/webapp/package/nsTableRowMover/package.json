@@ -1,0 +1,10 @@
+{
+	"name": "nstablerowmover",
+	"version": "0.4.2",
+	"title": "nsTableRowMover",
+	"description": "NSTableRowMover Class",
+	"main": "nsTableRowMover.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

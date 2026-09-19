@@ -1,0 +1,15 @@
+.nsDashboard 
+{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.nsDashboard .nsDashboardPanel
+{
+	position: relative;
+    min-height: 1px;
+	margin-right: 2px;
+	margin-bottom: 2px;
+	float: left;
+}

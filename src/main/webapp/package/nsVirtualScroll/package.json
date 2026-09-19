@@ -1,0 +1,10 @@
+{
+	"name": "nsvirtualscroll",
+	"version": "0.4.2",
+	"title": "nsVirtualScroll",
+	"description": "NSVirtualScroll Class",
+	"main": "nsVirtualScroll.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

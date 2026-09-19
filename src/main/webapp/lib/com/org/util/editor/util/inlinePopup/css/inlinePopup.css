@@ -1,0 +1,339 @@
+.nsEditorInlinePopup
+{
+	position: absolute;
+	width: auto;
+    overflow: visible;
+    z-index: 6;
+    border: 1px solid rgba(0,0,0,.25);
+    border-radius: 4px;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    white-space: normal;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    line-break: auto;
+    padding: 0;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 22px;
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;    
+}
+
+.nsEditorInlinePopup.nsEditorInlinePopupHide
+{
+	display: none;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupArrow,
+.nsEditorInlinePopup .nsEditorInlinePopupArrow:after 
+{
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border: 11px solid transparent;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupArrow.nsEditorInlinePopupArrowUp 
+{
+    top: -11px;
+    left: 0px;
+    margin-left: 0px;
+    border-top-width: 0;
+    border-bottom-color: rgba(0,0,0,.25);
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupArrow.nsEditorInlinePopupArrowUp:after 
+{
+    top: 1px;
+    margin-left: -11px;
+    content: " ";
+    border-top-width: 0;
+    border-bottom-color: #fff;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupContentContainer
+{
+	display: block;
+	padding: 5px;
+	white-space: nowrap;
+    line-height: 0;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupContentContainer .nsEditorInlinePopupButton
+{
+	position: relative;
+	display: inline-block;
+	background: transparent;
+    color: #333;
+    -moz-outline: 0;
+    outline: none;
+    border: 0;
+    line-height: 1;
+    cursor: pointer;
+    text-align: left;
+    margin: 4px 8px;
+    padding: 0;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    z-index: 2;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-decoration: none;
+    user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    height: 40px;
+    text-transform: none;
+    overflow: visible;
+    font-family: inherit;
+    font-size: inherit;
+    float: none;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButton.nsEditorInlinePopupButtonActive
+{
+	background: #d6d6d6;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButtonDropdownContainer
+{
+	display: inline-block;
+    position: relative;
+    font-size: inherit;
+    margin-right: 5px;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButton.nsEditorInlinePopupButtonDropdown:after
+{
+	position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #333;
+    right: 2px;
+    top: 14px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    content: "";
+}
+
+/*https://stackoverflow.com/questions/20541306/how-to-write-a-css-hack-for-ie-11*/
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) 
+{
+   .nsEditorInlinePopup .nsEditorInlinePopupButton.nsEditorInlinePopupButtonDropdown:after
+	{
+		top: 18px;
+	}
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButton.nsEditorInlinePopupButtonDropdown.nsEditorInlinePopupButtonOpen:after
+{
+	border-top-color: #333;
+	border-top: 0;
+    border-bottom: 4px solid #222;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupContentContainer .nsEditorInlinePopupButton:active
+{
+	color: #333;
+	background: #d6d6d6;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupContentContainer .nsEditorInlinePopupButton:hover
+{
+	background: #ebebeb;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButton i
+.nsEditorInlinePopup .nsEditorInlinePopupButton .fa
+.nsEditorInlinePopup .nsEditorInlinePopupButton .fas
+{
+	font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButton i,
+.nsEditorInlinePopup .nsEditorInlinePopupButton svg
+{
+	display: block;
+    text-align: center;
+    float: none;
+    margin: 8px 7px;
+    width: 24px;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButton .nsEditorInlinePopupButtonTooltip
+{
+	position: absolute;
+	left: 50%;
+    top: 0;
+    bottom: -5px;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    display: block;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: opacity .2s ease-in-out .2s;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButton:hover .nsEditorInlinePopupButtonTooltip 
+{
+    visibility: visible;
+    opacity: 1;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButton .nsEditorInlinePopupButtonTooltip .nsEditorInlinePopupButtonTooltipText
+{
+	position: relative;
+	display: inline-block;
+	left: -50%;
+	border-collapse: collapse;
+	text-align: left;
+    white-space: nowrap;
+    cursor: auto;
+    float: none;
+    font-size: .9em;
+    line-height: 1.5;
+    color: #fff;
+    padding: 5px 8px;
+    background: #333;
+    border-radius: 2px;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButtonTooltipText:after
+{
+	position: absolute;
+	width: 0;
+    height: 0;
+	left: 50%;
+    top: -4px;
+    pointer-events: none;
+    /* causes submenu to change its position */
+    /*content: "";*/
+    transition: opacity .2s ease-in-out .2s;
+    border-style: solid;
+    transform: translateX(-50%);
+    border-left-color: transparent;
+    border-bottom-color: #333;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    border-left-width: 5px;
+    border-bottom-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 0;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupDropdownContainer
+{
+	position: absolute;
+	top: 100%;
+    bottom: auto;
+    left: 0;
+	z-index: 1000;
+	border-radius: 2;
+	border-top-left-radius: 0;
+	min-width: 100%;
+	/*box-shadow:0 1px 2px 1px,0 0;*/
+	background: #ffffff;
+	border: 1px solid #c4c4c4;
+	display: none;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButtonDropdownContainer .nsEditorInlinePopupDropdownContainer.nsEditorInlinePopupDropdownContainerVisible
+{
+	display: inline-block;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButtonDropdown
+{
+	display: flex;
+    flex-direction: column;
+    list-style-type: none;
+	moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #fff;
+    border-radius:2px;
+    border-top-left-radius: 0;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-left:0px;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButtonDropdownItem
+{
+	display: block;
+	cursor: default;
+	min-width: 160px;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButtonDropdownItem:hover
+{
+	background: #ebebeb;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupButtonDropdownItem .nsEditorInlinePopupButtonDropdownItemContent
+{
+	padding: 0 20px;
+    line-height: 200%;
+    display: block;
+    cursor: pointer;
+    white-space: nowrap;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+.nsEditorInlinePopup .nsEditorInlinePopupHorizontalSeparator 
+{
+	display: block;	
+	width: calc(100% - 8px);
+    height: 1px;
+    margin: 0 4px;
+    vertical-align: top;
+    float: none;
+    clear: both;
+    background: #ebebeb;
+}
+	

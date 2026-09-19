@@ -1,0 +1,179 @@
+@font-face {
+  font-family: 'NSComponentFont';
+  src:
+    url('fonts/NSComponentFont.ttf?lgv4tg') format('truetype'),
+    url('fonts/NSComponentFont.woff?lgv4tg') format('woff'),
+    url('fonts/NSComponentFont.svg?lgv4tg#NSComponentFont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="ns-"], [class*=" ns-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'NSComponentFont' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ns-editor-align-center:before {
+  content: "\e900";
+}
+.ns-editor-align-justify:before {
+  content: "\e901";
+}
+.ns-editor-align-left:before {
+  content: "\e902";
+}
+.ns-editor-align-right:before {
+  content: "\e903";
+}
+.ns-editor-angle-double-down:before {
+  content: "\e904";
+}
+.ns-editor-angle-double-up:before {
+  content: "\e905";
+}
+.ns-editor-angle-down:before {
+  content: "\e906";
+}
+.ns-editor-angle-up:before {
+  content: "\e907";
+}
+.ns-editor-background-color:before {
+  content: "\e908";
+}
+.ns-editor-bars:before {
+  content: "\e909";
+}
+.ns-editor-bold:before {
+  content: "\e90a";
+}
+.ns-editor-bookmark:before {
+  content: "\e90b";
+}
+.ns-editor-close-bold:before {
+  content: "\e90c";
+}
+.ns-editor-collapse:before {
+  content: "\e90d";
+}
+.ns-editor-collapse-bold:before {
+  content: "\e90e";
+}
+.ns-editor-decrease-indent:before {
+  content: "\e90f";
+}
+.ns-editor-expand:before {
+  content: "\e910";
+}
+.ns-editor-expand-bold:before {
+  content: "\e911";
+}
+.ns-editor-font:before {
+  content: "\e912";
+}
+.ns-editor-font-color:before {
+  content: "\e913";
+}
+.ns-editor-font-size:before {
+  content: "\e914";
+}
+.ns-editor-header:before {
+  content: "\e915";
+}
+.ns-editor-increase-indent:before {
+  content: "\e916";
+}
+.ns-editor-italics:before {
+  content: "\e917";
+}
+.ns-editor-layout:before {
+  content: "\e918";
+}
+.ns-editor-link:before {
+  content: "\e919";
+}
+.ns-editor-minus:before {
+  content: "\e91a";
+}
+.ns-editor-new-doc:before {
+  content: "\e91b";
+}
+.ns-editor-next:before {
+  content: "\e91c";
+}
+.ns-editor-ordered-list:before {
+  content: "\e91d";
+}
+.ns-editor-paragraph:before {
+  content: "\e91e";
+}
+.ns-editor-prev:before {
+  content: "\e91f";
+}
+.ns-editor-preview:before {
+  content: "\e920";
+}
+.ns-editor-print:before {
+  content: "\e921";
+}
+.ns-editor-redo:before {
+  content: "\e922";
+}
+.ns-editor-search:before {
+  content: "\e923";
+}
+.ns-editor-source:before {
+  content: "\e924";
+}
+.ns-editor-square:before {
+  content: "\e925";
+}
+.ns-editor-strikethrough:before {
+  content: "\e926";
+}
+.ns-editor-subscript:before {
+  content: "\e927";
+}
+.ns-editor-superscript:before {
+  content: "\e928";
+}
+.ns-editor-table:before {
+  content: "\e929";
+}
+.ns-editor-trash:before {
+  content: "\e92a";
+}
+.ns-editor-underline:before {
+  content: "\e92b";
+}
+.ns-editor-undo:before {
+  content: "\e92c";
+}
+.ns-editor-unordered-list:before {
+  content: "\e92d";
+}
+.ns-editor-vertical-dots:before {
+  content: "\e92e";
+}
+.ns-navigation-arrow-down:before {
+  content: "\e92f";
+}
+.ns-navigation-arrow-left:before {
+  content: "\e930";
+}
+.ns-navigation-arrow-right:before {
+  content: "\e931";
+}
+.ns-navigation-arrow-up:before {
+  content: "\e932";
+}

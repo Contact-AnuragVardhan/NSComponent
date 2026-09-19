@@ -1,0 +1,10 @@
+{
+	"name": "nscompevent",
+	"version": "0.4.2",
+	"title": "nsEvent",
+	"description": "nsEvent Class",
+	"main": "nsEvent.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

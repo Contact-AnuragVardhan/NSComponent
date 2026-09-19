@@ -1,0 +1,7 @@
+{
+	"name": "nscomputil",
+	"version": "0.4.2",
+	"title": "NsUtil",
+	"description": "NSUtil Class",
+	"main": "nsUtil.min.js"
+}

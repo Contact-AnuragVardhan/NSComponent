@@ -1,0 +1,11 @@
+{
+	"name": "nslist",
+	"version": "0.4.2",
+	"title": "nsList",
+	"description": "NSList Class",
+	"main": "nsList.min.js",
+	"dependencies": {
+		"nscontainerbase": "0.4.2",
+		"nscomputil": "0.4.2"
+	}
+}

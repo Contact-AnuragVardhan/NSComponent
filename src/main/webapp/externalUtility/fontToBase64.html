@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body style="">
+	<input type="file" onchange="base64convert(this.files)">
+	<script type="text/javascript">
+		function base64convert (files) {
+		console.clear()
+		const reader = new FileReader()
+		reader.onload = (e) => {
+		console.log(e.target.result)
+		}
+		reader.readAsDataURL(files[0])
+		}
+	</script>
+	<div class="as-console-wrapper">
+		<div class="as-console"/>
+	</div>
+</body>
+</html>

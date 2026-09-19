@@ -1,0 +1,185 @@
+.nsScrollParentContainer {
+/*     height: 500px; */
+    overflow: hidden;
+    position: relative;
+    margin: 50px 10px;
+/*     width: 700px; */
+    background: #fff;
+    border: 1px solid #ccc;
+    z-index: 0;
+}
+.nsScrollContentContainer {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+}
+.nsScrollHorizontalScrollContainer {
+	height: 16px;
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset,
+          0 6px 6px -6px rgba(0,0,0,0.5) inset;
+    background: #f7f7f7;
+}
+.nsScrollHorizontalLeftArrow {
+	left: 0px;
+    box-shadow: 1px 0 0 rgba(0,0,0,0.2) inset;
+    width: 16px;
+    z-index: 1;
+    height: 16px;
+    background: none;
+    position: absolute;
+}
+.nsScrollHorizontalScrollPane {
+	 border-radius: 16px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.6) inset;
+    left:16px;
+    right: 32px;
+    background: none;
+    position: absolute;
+    top: 0;
+    z-index: 0;
+    border-radius: 16px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.6) inset;
+    
+}
+
+.nsScrollHorizontalScrollBar:before {
+  top: 2px;
+  left: 5px;
+  right: 5px;
+  height: 40%;
+  width: auto;
+  background: -webkit-linear-gradient( bottom, rgba(255,255,255,0.5) 0%,
+                                      rgba(255,255,255,0.3) 100%);
+  
+ content: "";
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 2px;
+  width: 40%;
+  background: -webkit-linear-gradient( right, rgba(255,255,255,0.5) 0%,
+                                      rgba(255,255,255,0.3) 100%);
+  border-radius: 10px;
+}
+
+.nsScrollHorizontalScrollBar {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    bottom: 3px;
+    z-index: 1;
+     background: -webkit-linear-gradient( right, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: -moz-linear-gradient( right, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: -o-linear-gradient( right, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: linear-gradient( right, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background-size: 20px 100%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.6),
+    0 6px 4px rgba(0,0,222,0.4) inset;
+     background: -webkit-linear-gradient( bottom, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: -moz-linear-gradient( bottom, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: -o-linear-gradient( bottom, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: linear-gradient( bottom, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background-size: 20px 100%;
+    box-shadow: 1px 0 2px rgba(0,0,0,0.6),
+    6px 0 4px rgba(0,0,222,0.4) inset;
+    border-radius: 8px;
+}
+.nsScrollHorizontalRightArrow {
+    right: 16px;
+    box-shadow: 1px 0 0 rgba(0,0,0,0.2) inset;
+    width: 16px;
+    z-index: 1;
+    height: 16px;
+    background: none;
+    position: absolute;
+}
+
+.nsScrollVerticalScrollContainer {
+    width: 16px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: auto;
+    box-shadow: 1px 0 1px rgba(0, 0, 0, 0.1) inset,
+    6px 0 6px -6px rgba(0,0,0,0.5) inset;
+    background: #f7f7f7;
+}
+.nsScrollVerticalUpArrow {
+    position: absolute;
+    top: 0;
+     box-shadow: 0 1px 0 rgba(0,0,0,0.2) inset;
+    width: 16px;
+    height: 16px;
+    z-index: 1;
+}
+.nsScrollVerticalScrollPane {
+	position: absolute;
+	top: 16px;
+    bottom: 32px;
+    background: none;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    border-radius: 16px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.6) inset;
+}
+.nsScrollVerticalScrollBar:before{
+	content: "";
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 2px;
+  width: 40%;
+  background: -webkit-linear-gradient( right, rgba(255,255,255,0.5) 0%,
+                                      rgba(255,255,255,0.3) 100%);
+  background: -moz-linear-gradient( right, rgba(255,255,255,0.5) 0%,
+                                   rgba(255,255,255,0.3) 100%);
+  background: -o-linear-gradient( right, rgba(255,255,255,0.5) 0%,
+                                 rgba(255,255,255,0.3) 100%);
+  background: linear-gradient( right, rgba(255,255,255,0.5) 0%,
+                              rgba(255,255,255,0.3) 100%);
+  border-radius: 10px;
+}
+
+
+.nsScrollVerticalScrollBar {
+    position: absolute;
+    top: 0;
+    left: 2px;
+    right: 3px;
+    z-index: 1; 
+    background: -webkit-linear-gradient( bottom, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: -moz-linear-gradient( bottom, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: -o-linear-gradient( bottom, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background: linear-gradient( bottom, rgb(125,185,232) 0%,rgb(91,167,216) 50%,rgb(125,185,232) 100%);
+    background-size: 100% 20px;
+    box-shadow: 1px 0 2px rgba(0,0,0,0.6),
+    6px 0 4px rgba(0,0,222,0.4) inset;
+    border-radius: 16px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.6) inset;
+}
+.nsScrollVerticalDownArrow {
+	position: absolute;
+    bottom: 16px;
+     box-shadow: 0 1px 0 rgba(0,0,0,0.2) inset;
+    width: 16px;
+    height: 16px;
+    z-index: 1;
+}
+ .nsScrollBarCorner{
+ 	background-color: #f7f7f7;
+    position:absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    z-index: 2;
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.2) inset;
+ }

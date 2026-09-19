@@ -1,0 +1,7 @@
+{
+	"name": "nspluggins",
+	"version": "0.4.2",
+	"title": "nsPluggins",
+	"description": "NSPluggins Class",
+	"main": "nsPluggins.min.js"
+}

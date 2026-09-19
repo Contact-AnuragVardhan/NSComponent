@@ -1,0 +1,7 @@
+{
+	"name": "nsconsole",
+	"version": "0.4.2",
+	"title": "nsConsole",
+	"description": "NSConsole Class",
+	"main": "nsConsole.min.js"
+}

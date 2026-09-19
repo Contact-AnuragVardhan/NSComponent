@@ -1,0 +1,11 @@
+{
+	"name": "nseditor",
+	"version": "0.4.2",
+	"title": "nsEditor",
+	"description": "NSEditor Class",
+	"main": "nsEditor.min.js",
+	"dependencies": {
+		"nscontainerbase": "0.4.2",
+		"nscomputil": "0.4.2"
+	}
+}

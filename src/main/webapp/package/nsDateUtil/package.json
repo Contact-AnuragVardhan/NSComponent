@@ -1,0 +1,7 @@
+{
+	"name": "nsdateutil",
+	"version": "0.4.2",
+	"title": "nsDateUtil",
+	"description": "NSDateUtil Class",
+	"main": "nsDateUtil.min.js"
+}

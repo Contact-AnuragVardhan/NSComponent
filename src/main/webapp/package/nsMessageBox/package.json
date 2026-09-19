@@ -1,0 +1,11 @@
+{
+	"name": "nsmessagebox",
+	"version": "0.4.2",
+	"title": "nsMessageBox",
+	"description": "NSMessageBox Class",
+	"main": "nsMessageBox.min.js",
+	"dependencies": {
+		"nscontainerbase": "0.4.2",
+		"nscomputil": "0.4.2"
+	}
+}

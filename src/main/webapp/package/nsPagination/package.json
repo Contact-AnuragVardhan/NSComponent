@@ -1,0 +1,10 @@
+{
+	"name": "nspagination",
+	"version": "0.4.2",
+	"title": "nsPagination",
+	"description": "NSPagination Class",
+	"main": "nsPagination.min.js",
+	"dependencies": {
+		"nscomputil": "0.4.2"
+	}
+}

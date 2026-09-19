@@ -1,0 +1,378 @@
+.nsConsoleContainer
+{
+	width: 100%; 
+	margin: 0px; 
+	padding: 0px; 
+	position: fixed; 
+	left: 0px; 
+	z-index: 9999; 
+	bottom: 0px;
+	display: flex;
+    flex-direction: column;
+}
+
+.nsConsoleContainer.nsConsoleExpanding
+{
+	transition: height 0.5s ease-in;
+	-webkit-transition: height 0.5s ease-in;
+} 
+
+.nsConsoleContainer.nsConsoleCollapsing
+{
+	transition: height 0.5s ease-out;
+	-webkit-transition: height 0.5s ease-out;
+}
+.nsConsoleContainer.nsConsoleDisable
+{
+	display:none;
+}
+
+.nsConsoleContainer .nsConsoleResizer
+{
+	height: 1px;
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    background: #060606;
+    border: solid 1px #2f2f2f;
+    box-sizing: border-box;
+}
+
+.nsConsoleContainer .nsConsoleResizer.nsConsoleResizerCursor
+{
+	cursor: n-resize;
+}
+
+.nsConsoleContainer .nsConsoleHeaderIcon
+{
+	fill: #ffffff;
+	height: 1em;
+	width: 1em;
+	cursor: pointer;
+}
+
+.nsConsoleContainer .nsConsoleHeaderCon
+{
+	position: relative;
+    display: flex;
+    font-size: 0.75rem;
+    flex: 0 0 28px;
+    background-color: rgb(21, 21, 21);
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    box-shadow: rgb(0 0 0 / 30%) 0px 0px 3px;
+    cursor: pointer;
+    padding-right: 1rem;
+}
+.nsConsoleContainer .nsConsoleHeaderCon .nsConsoleHeaderTextCon
+{
+	display: flex;
+    flex: 1 1 auto;
+    margin-right: 1rem;
+    overflow-x: auto;
+}
+
+.nsConsoleContainer .nsConsoleHeaderTextCon .nsConsoleHeaderTextParent
+{
+	flex: 1 1 auto;
+    display: flex;
+}
+
+.nsConsoleContainer .nsConsoleHeaderTextCon .nsConsoleHeaderText
+{
+	position: relative;
+    transition: color 0.2s ease 0s;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0px 1.75rem 0px 1.25rem;
+    width: max-content;
+    height: 100%;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: rgb(21, 21, 21);
+    color: rgb(255, 255, 255);
+}
+
+.nsConsoleContainer .nsConsoleHeaderTextCon .nsConsoleHeaderFilterCon
+{
+	font-size: 1.125rem;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.nsConsoleContainer .nsConsoleHeaderExpandCollapseCon
+{
+	padding-top: 5px;
+}
+
+.nsConsoleContainer .nsConsoleHeaderExpandCollapseCon .nsConsoleHeaderExpandCollapseIcon
+{
+	vertical-align: middle;
+	align-self: center;
+}
+
+.nsConsoleContainer .nsConsoleBodyCon
+{
+	position: relative;
+    background-color: rgb(21, 21, 21);
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0px;
+    height: 100%;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent
+{
+	background-color: rgb(21, 21, 21);
+    font-family: Menlo, monospace;
+    color: rgb(255, 255, 255);
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    border-color: rgb(52, 52, 52);
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon
+{
+	-webkit-box-flex: 1;
+    flex-grow: 1;
+    overflow: hidden auto;
+    white-space: pre-wrap;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody
+{
+	overflow: hidden auto;
+	word-break: break-word;
+    width: 100%;
+}
+/*Log Start*/
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgLog
+{
+	position: relative;
+    display: flex;
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+    margin-top: -1px;
+    margin-bottom: 0px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgLog *
+{
+	vertical-align: top;
+    box-sizing: border-box;
+    font-family: Menlo, monospace;
+    white-space: pre-wrap;
+    font-size: 13px;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgLog .nsConsoleBodyMsgCount
+{
+	width: 1em;
+    height: 26px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%
+}
+
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgLog .nsConsoleBodyMsgTextCon
+{
+	clear: right;
+    position: relative;
+    padding: 0.4rem 1.5rem 0.4rem 0px;
+    margin-left: 15px;
+    min-height: 18px;
+    flex: 1 1 auto;
+    width: calc(100% - 15px);
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgLog .nsConsoleBodyMsgTextText
+{
+	display: inline-block;
+    word-break: break-all;
+}
+/*Log End*/
+/*Error Start*/
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgError
+{
+	position: relative;
+    display: flex;
+    color: rgb(254, 127, 127);
+    background-color: rgb(40, 0, 0);
+    border-top: 1px solid rgb(91, 0, 0);
+    border-bottom: 1px solid rgb(91, 0, 0);
+    margin-top: -1px;
+    margin-bottom: 1px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgError *
+{
+	vertical-align: top;
+    box-sizing: border-box;
+    font-family: Menlo, monospace;
+    white-space: pre-wrap;
+    font-size: 13px;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgError .nsConsoleBodyMsgCount
+{
+	width: 1em;
+    height: 26px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23FE7F7F' viewBox='0 0 40 40'%3e%3cpath d='M21.6 21.6v-10h-3.2v10h3.2zm0 6.8V25h-3.2v3.4h3.2zM20 3.4a16.6 16.6 0 1 1 0 33.2 16.6 16.6 0 1 1 0-33.2z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgError .nsConsoleBodyMsgTextCon
+{
+	clear: right;
+    position: relative;
+    padding: 0.4rem 1.5rem 0.4rem 0px;
+    margin-left: 15px;
+    min-height: 18px;
+    flex: 1 1 auto;
+    width: calc(100% - 15px);
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgError .nsConsoleBodyMsgTextText
+{
+}
+/*Error End*/
+/*Warn Start*/
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgWarn
+{
+	position: relative;
+    display: flex;
+    color: rgb(245, 211, 150);
+    background-color: rgb(51, 42, 0);
+    border-top: 1px solid rgb(102, 85, 0);
+    border-bottom: 1px solid rgb(102, 85, 0);
+    margin-top: -1px;
+    margin-bottom: 1px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgWarn *
+{
+	vertical-align: top;
+    box-sizing: border-box;
+    font-family: Menlo, monospace;
+    white-space: pre-wrap;
+    font-size: 13px;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgWarn .nsConsoleBodyMsgCount
+{
+	width: 1em;
+    height: 26px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23F5D396' viewBox='0 0 40 40'%3e%3cpath d='M21.6 23.4v-6.8h-3.2v6.8h3.2zm0 6.6v-3.4h-3.2V30h3.2zm-20 5L20 3.4 38.4 35H1.6z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgWarn .nsConsoleBodyMsgTextCon
+{
+	clear: right;
+    position: relative;
+    padding: 0.4rem 1.5rem 0.4rem 0px;
+    margin-left: 15px;
+    min-height: 18px;
+    flex: 1 1 auto;
+    width: calc(100% - 15px);
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgInfo .nsConsoleBodyMsgTextText
+{
+	display: inline-block;
+    word-break: break-all;
+}
+/*Warn End*/
+/*Info Start*/
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgInfo
+{
+	position: relative;
+    display: flex;
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+    margin-top: -1px;
+    margin-bottom: 0px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgInfo *
+{
+	vertical-align: top;
+    box-sizing: border-box;
+    font-family: Menlo, monospace;
+    white-space: pre-wrap;
+    font-size: 13px;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgInfo .nsConsoleBodyMsgCount
+{
+	width: 1em;
+    height: 26px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADISURBVChTY4ABp/AztmZBZ07qe538rO114rOa8+GTskYHbKHSEOARd6nLIOTsf61gIA46U6kVePYQiK3uc/K/hPG+LrCi8IyrtkZh5yCKgk/80w46ba0RdGYGhH/2v6rXyf88qtttGVwSLp2ECQLxeiAu1wo6uwpJ7L+o2f6TDA6xZz8jCyqFnuHXCj4djywmZXHoM/EK0azGqhBsNYpngL6VCTnGqRF4xgKo+D5IDO4ZEEAKnjcQBafvqwWf/YoSPDCAP8AZGAC7mLM81zgOTQAAAABJRU5ErkJggg==);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgInfo .nsConsoleBodyMsgTextCon
+{
+	clear: right;
+    position: relative;
+    padding: 0.4rem 1.5rem 0.4rem 0px;
+    margin-left: 15px;
+    min-height: 18px;
+    flex: 1 1 auto;
+    width: calc(100% - 15px);
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgInfo .nsConsoleBodyMsgTextText
+{
+	display: inline-block;
+    word-break: break-all;
+}
+/*Info End*/
+/*Debug Start*/
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgDebug
+{
+	position: relative;
+    display: flex;
+    color: rgb(77, 136, 255);
+    background-color: transparent;
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+    margin-top: -1px;
+    margin-bottom: 0px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgDebug *
+{
+	vertical-align: top;
+    box-sizing: border-box;
+    font-family: Menlo, monospace;
+    white-space: pre-wrap;
+    font-size: 13px;
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgDebug .nsConsoleBodyMsgCount
+{
+	width: 1em;
+    height: 26px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 459 459'%3e%3cpath fill='%234D88FF' d='M433.5 127.5h-71.4a177.7 177.7 0 0 0-45.9-51L357 35.7 321.3 0l-56.1 56.1c-10.2-2.6-23-5.1-35.7-5.1s-25.5 2.5-35.7 5.1L137.7 0 102 35.7l40.8 40.8a177.7 177.7 0 0 0-45.9 51H25.5v51H79c-2.5 7.7-2.5 17.9-2.5 25.5v25.5h-51v51h51V306a88 88 0 0 0 2.5 25.5H25.5v51h71.4A152.2 152.2 0 0 0 229.5 459c56.1 0 107.1-30.6 132.6-76.5h71.4v-51H380c2.5-7.7 2.5-17.9 2.5-25.5v-25.5h51v-51h-51V204c0-7.7 0-17.9-2.5-25.5h53.5v-51zm-153 204h-102v-51h102v51zm0-102h-102v-51h102v51z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgDebug .nsConsoleBodyMsgTextCon
+{
+	clear: right;
+    position: relative;
+    padding: 0.4rem 1.5rem 0.4rem 0px;
+    margin-left: 15px;
+    min-height: 18px;
+    flex: 1 1 auto;
+    width: calc(100% - 15px);
+}
+.nsConsoleContainer .nsConsoleBodyCon .nsConsoleBodyParent .nsConsoleBodyTextCon .nsConsoleBodyTextBody .nsConsoleBodyMsgDebug .nsConsoleBodyMsgTextText
+{
+	display: inline-block;
+    word-break: break-all;
+}
+/*Debug End*/
